@@ -1,0 +1,38 @@
+- JAVA 개발 환경
+    1. JAVA SE(Standard Edition)
+        - JDK 다운로드 및 설치, Java Application 개발
+        - Tools : Eclipse, IntelliJ 등…
+    2. JAVA EE(Enterprise Edition)
+        - JDK 설치
+        - (1) JAVA EE 다운로드 및 설치
+        - (2) WAS(Web Application Server) : JAVA EE + 오픈소스 개발 밴더 - Tomcat WebLogin, JEUS…
+        - Tools : Eclipse, IntelliJ 등…
+    3. JAVA ME(Micro Edition)
+        - JDK 설치
+        - (1) JAVA ME 다운로드 및 설치
+        - (2) Android 플랫폼(JAVA ME + Google API)
+
+
+- Spring 라이브러리 및 특징
+    - ioC, DI, AOP, PSA
+    - Spring Web
+    - Spring Beans…
+
+- Spring 프로젝트 생성
+    - 신식 : https://start.spring.io/
+    - 구식 : https://mvnrepository.com/repos/central
+
+
+- 정리
+    - Spring 위키백과
+        - https://ko.wikipedia.org/wiki/%EC%8A%A4%ED%94%84%EB%A7%81_%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC
+
+    - Spring과 Spring Boot
+        - https://www.korecmblog.com/blog/spring-history
+
+    - Spring Framework Runtime
+        - https://docs.spring.io/spring-framework/docs/4.2.8.RELEASE/spring-framework-reference/html/overview.html
+        - https://docs.spring.io/spring-framework/docs/4.2.8.RELEASE/spring-framework-reference/html/images/spring-overview.png
+
+    - Spring Boot
+        - Spring Boot 구조 : https://melonicedlatte.com/2021/07/11/174700.html
