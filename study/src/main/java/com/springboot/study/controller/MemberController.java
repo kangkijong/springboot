@@ -10,6 +10,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MemberController {
+    /**
+     * REST API 회원가입 화면
+     */
+    @GetMapping("/restSignup")
+    public String restSignup() {
+        return "restSignup";
+    }
+
+    /**
+     * REST API 로그인 화면
+     */
+    @GetMapping("/restLogin")
+    public String restLogin() {
+        return "restLogin";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login"; //로그인 화면, view name --> templates
