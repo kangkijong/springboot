@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController //내부에 @ResponseBody 포함, Map 객체 생성 없이 JSON 객체 바로 전송
+@RequestMapping("/member")
 public class MemberRestController {
 
     @PostMapping("/restSignup")

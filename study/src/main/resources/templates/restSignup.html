@@ -14,7 +14,7 @@
             const formData = {"id": id, "pass": pass, "name": name, "address": address};
 
             //2. fetch 호출
-            const response = await fetch("http://localhost:8080/restSignup", {
+            const response = await fetch("http://localhost:8080/member/restSignup", {
                 method: "POST",
                 headers: {"Content-Type": "application/json", },
                 body: JSON.stringify(formData)
