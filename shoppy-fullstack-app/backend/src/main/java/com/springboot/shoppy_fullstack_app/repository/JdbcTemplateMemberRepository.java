@@ -7,30 +7,31 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 
 @Repository
-public class JdbcTemplateMemberRepository implements MemberRepository {
+public class JdbcTemplateMemberRepository  implements  MemberRepository{
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateMemberRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);   //커넥션 생성
-    }
-
-    @Override
-    public Long findById(String id) {
-        String sql = "select count(id) from member where id='?'";
-        Long count = jdbcTemplate.queryForObject(sql, Long.class, id);
-        return count;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Override
     public int save(Member member) {
-        String sql = "insert into member(id, pwd, phone, email ,mdate) values (?, ?, ?, ?, ?, now())";
-        Object [] param = { member.getId(),
-                            member.getPwd(),
-                            member.getName(),
-                            member.getPhone(),
-                            member.getEmail() };
+        String sql = "insert into member(id, pwd, name, phone, email, mdate) values(?, ?, ?, ?, ?, now())";
+        Object [] param = {
+                member.getId(),
+                member.getPwd(),
+                member.getName(),
+                member.getPhone(),
+                member.getEmail()
+        };
+        return jdbcTemplate.update(sql, param);
+    }
 
-        int rows = jdbcTemplate.update(sql, param);
-        return rows;
+    @Override
+    public Long findById(String id) {
+        String sql = "select count(id) from member where id=?";
+        Long count = jdbcTemplate.queryForObject(sql, Long.class, id);
+        return count;
     }
 }

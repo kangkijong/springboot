@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberServiceImpl implements MemberService {
-
+public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Autowired
@@ -16,17 +15,16 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean idCheck(String id) {
-        boolean result = true;
-        Long count = memberRepository.findById(id);
-        System.out.println("count ---> ", count);
-        if(count == 0) result = false;
-        return result;
+    public int signup(Member member){
+        return memberRepository.save(member);
     }
 
     @Override
-    public int signup(Member member) {
-        return memberRepository.save(member);
+    public boolean idCheck(String id) {
+        boolean result = true;
+        Long count = memberRepository.findById(id);
+        if(count == 0) result = false;
+        return result;
     }
 
 }
