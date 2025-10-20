@@ -9,19 +9,19 @@ import { QnA } from '../components/detailTabs/QnA.jsx';
 import { Return } from '../components/detailTabs/Return.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart } from '../feature/cart/cartAPI.js';
-import { getProduct } from '../feature/product/productAPI.js';
+import { getProduct, getProductList } from '../feature/product/productAPI.js';
 
 export function ProductDetail() {
-    const {pid} = useParams();  
+    const {pid} = useParams();
     const dispatch = useDispatch();
     const product = useSelector((state) => state.product.product );
-    const imgList = useSelector((state) => state.product.product.imgList);
+    const imgList = useSelector((state) => state.product.imgList);
 
-    const [size, setSize] = useState('XS');  
+    const [size, setSize] = useState('XS');
     const [tabName, setTabName] = useState('detail');
     const tabLabels = ['DETAIL', 'REVIEW', 'Q&A', 'RETURN & DELIVERY'];
     const tabEventNames = ['detail', 'review', 'qna', 'return'];
-    
+
     useEffect(()=> {
         dispatch(getProduct(pid));
     }, []);
@@ -30,7 +30,7 @@ export function ProductDetail() {
         <div className="content">
             <div className='product-detail-top'>
                 <div className='product-detail-image-top'>
-                    <img src={product.image} />
+                    <img src={product.image && `/images/${product.image}`} />
                     <ImageList  className="product-detail-image-top-list"
                                 imgList={imgList}/>
                 </div>
@@ -64,7 +64,7 @@ export function ProductDetail() {
                         </select>
                     </li>
                     <li className="flex">
-                        <button type="button" 
+                        <button type="button"
                                 className="product-detail-button order">바로 구매</button>
                         <button type="button"
                                 className="product-detail-button cart"
@@ -79,13 +79,13 @@ export function ProductDetail() {
                         <ul className='product-detail-summary-info'>
                             <li>상품 요약 정보</li>
                         </ul>
-                    </li>               
+                    </li>
                 </ul>
             </div>
 
             <div className='product-detail-tab'>
                 <ul className='tabs'>
-                    { tabLabels && tabLabels.map((label, i) => 
+                    { tabLabels && tabLabels.map((label, i) =>
                         <li className={tabName === tabEventNames[i]? "active": "" }>
                             <button type="button"
                                     onClick={()=> setTabName(tabEventNames[i])}
@@ -94,8 +94,8 @@ export function ProductDetail() {
                     )}
                 </ul>
 
-                {tabName === "detail" 
-                                &&  <Detail imgList={imgList} 
+                {tabName === "detail"
+                                &&  <Detail imgList={imgList}
                                             info={product.detailInfo}       />}
                 {tabName === "review" &&  <Review />}
                 {tabName === "qna" &&  <QnA />}
@@ -104,5 +104,7 @@ export function ProductDetail() {
             </div>
             <div style={{marginBottom:"50px"}}></div>
         </div>
+
+
     );
 }

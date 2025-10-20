@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/member")
-@CrossOrigin(origins = {"http://localhost:3000"})
+//@CrossOrigin(origins = {"http://localhost:3000"})
 public class MemberController {
     private final MemberService memberService;
 
@@ -34,11 +34,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public boolean login(@RequestBody Member member) {
-        boolean result = false;
-        if(member.getId().equals("test") && member.getPwd().equals("1234"))
-            result = true;
-
-        return result;
+        return memberService.login(member);
     }
 
 }

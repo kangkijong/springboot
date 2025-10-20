@@ -1,6 +1,7 @@
 package com.springboot.shoppy_fullstack_app.repository;
 
 import com.springboot.shoppy_fullstack_app.dto.Member;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,18 @@ public class JdbcTemplateMemberRepository  implements  MemberRepository{
 
     public JdbcTemplateMemberRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    @Override
+    public String login(String id) {
+        String sql = "select pwd from member where id = ?";
+        String encodePwd = jdbcTemplate.queryForObject(sql, String.class, id);
+        return encodePwd;
+
+//        Member member = jdbcTemplate.queryForObject(sql,
+//                                    new BeanPropertyRowMapper<>(Member.class),  //RowMapper<T>
+//                                    id);
+//        return member.getPwd();
     }
 
     @Override
