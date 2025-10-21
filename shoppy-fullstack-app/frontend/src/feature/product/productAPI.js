@@ -7,7 +7,6 @@ import { axiosData, groupByRows, axiosGet,  axiosPost } from '../../utils/dataFe
 export const getQna = async(pid) => {
     const url = "/product/qna";
     const qna  = await axiosPost(url, {"pid": pid});
-//    const list = JSON.parse(info.list);
     return qna;
 }
 
