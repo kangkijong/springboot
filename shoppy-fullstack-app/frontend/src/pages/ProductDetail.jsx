@@ -86,7 +86,7 @@ export function ProductDetail() {
             <div className='product-detail-tab'>
                 <ul className='tabs'>
                     { tabLabels && tabLabels.map((label, i) =>
-                        <li className={tabName === tabEventNames[i]? "active": "" }>
+                        <li className={tabName === tabEventNames[i]? "active": "" } key={i}>
                             <button type="button"
                                     onClick={()=> setTabName(tabEventNames[i])}
                                 >{label}</button>
@@ -95,8 +95,7 @@ export function ProductDetail() {
                 </ul>
 
                 {tabName === "detail"
-                                &&  <Detail imgList={imgList}
-                                            info={product.detailInfo}       />}
+                                &&  <Detail imgList={imgList} pid={pid} />}
                 {tabName === "review" &&  <Review />}
                 {tabName === "qna" &&  <QnA />}
                 {tabName === "return" &&  <Return />}
