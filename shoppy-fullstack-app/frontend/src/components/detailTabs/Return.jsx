@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { axiosData } from '../../utils/dataFetch.js';
+import { getReturn } from '../../feature/product/productAPI.js';
 
 export function Return() {
     const [returnData, setReturnData] = useState({});
     useEffect(()=> {
         const fetch = async() => {
-            const jsonData = await axiosData("/data/productReturn.json");
+            const jsonData = await getReturn();
             setReturnData(jsonData);
         }
         fetch();

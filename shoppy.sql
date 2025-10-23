@@ -54,7 +54,7 @@ where pid = 1;
 
 
 /**********************************************
-	상품 상세정보 테이블 생성 : product_detailinfo
+	상품상세정보 테이블 생성 : product_detailinfo
 **********************************************/
 show tables;
 drop table product_detailinfo;
@@ -104,7 +104,7 @@ where p.pid = pd.pid and p.pid = 1 ;
 select * from product;
 desc product_detailinfo;
 
-select did, title_en, title_ko, pid, list
+select did, title_en as titleEn, title_ko as titleKo, pid, list
 	from product_detailinfo
     where pid = 1;
 
@@ -117,18 +117,18 @@ select now() from dual;
 show tables;
 desc member;
 create table product_qna (
-	qid				int					auto_increment		primary key,
-    title				varchar(100)		not null,
-    content			varchar(200),
+	qid			int				auto_increment		primary key,
+    title		varchar(100) 	not null,
+    content		varchar(200),
     is_complete	boolean,
-    is_lock			boolean,
-    id					varchar(50)		not null,
-    pid				int					not null,
-    cdate			datetime,
-    constraint 	fk_product_qna_pid	foreign key(pid)		references product(pid)
-		on delete cascade	on update cascade,
-    constraint 	fk_member_id			foreign key(id)		references member(id)
-		on delete cascade	on update cascade
+    is_lock		boolean,
+    id			varchar(50)		not null,
+    pid			int				not null,
+    cdate		datetime,
+    constraint fk_product_qna_pid	foreign key(pid)  references product(pid)
+		on delete cascade   on update cascade,
+	constraint fk_member_id	foreign key(id)  references member(id)
+		on delete cascade   on update cascade
 );
 desc product_qna;
 select * from product_qna;
@@ -137,8 +137,8 @@ select * from product_qna;
 show variables like 'secure_file_priv';
 
 -- product_qna data insert
--- insert into product_qna(title, content, is_complete, is_lok, id, pid, cdate)
-select
+insert into product_qna(title, content, is_complete, is_lock, id, pid, cdate)
+select 
 	jt.title,
     jt.content,
     jt.is_complete,
@@ -148,16 +148,16 @@ select
     jt.cdate
 from
 	json_table(
-		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/productsQnA.json') 
+		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/productQnA.json') 
 				AS CHAR CHARACTER SET utf8mb4 ),
 		'$[*]' COLUMNS (
-			 title		   		VARCHAR(100)  	PATH '$.title',
-			 content   		VARCHAR(100)  	PATH '$.content',
-			 is_complete  boolean 				PATH '$.isComplete',
-			 is_lock  		boolean 				PATH '$.isLock',
-			 id					varchar(50)			PATH '$.id',
-             pid				int						PATH '$.pid',
-             cdate			datetime				PATH '$.cdate'
+			 title   		VARCHAR(100)  	PATH '$.title',
+			 content   		VARCHAR(200)  	PATH '$.content',
+			 is_complete 	boolean 		PATH '$.isComplete',
+             is_lock 		boolean 		PATH '$.isLock',
+			 id				varchar(50)	 	PATH '$.id',
+             pid			int				path '$.pid',
+             cdate			datetime		path '$.cdate'
 		   )   
     ) as jt ;
 
@@ -166,7 +166,7 @@ select * from member;
 
 -- hong 회원이 분홍색 후드티(pid:1) 상품에 쓴 QnA 조회
 -- 회원아이디(id), 회원명(name), 가입날짜(mdate), 상품명(name), 상품가격(price), 
--- QnA 제목(title), 내용(content), 등록 날짜(cdate)
+-- QnA제목(title), 내용(content), 등록날짜(cdate)
 select 
 	m.id,
     m.name,
@@ -182,9 +182,84 @@ where m.id = pq.id and p.pid = pq.pid
 	and m.id = 'hong' and p.pid = 1;
 
 
+/*********************************************************************
+	상품 Return/Delivery 테이블 생성 : product_return
+**********************************************************************/
+show tables;
+create table product_return (
+	rid			int				auto_increment	primary key,
+    title		varchar(100)	not null,
+    description	varchar(200),	
+    list		json      
+);
+desc product_return;
+select * from product_return;
 
+-- json_table을 이용하여 데이터 추가
+insert into product_return(title, description, list)
+select 
+	jt.title,
+    jt.description,
+    jt.list
+from
+	json_table(
+		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/productReturn.json') 
+				AS CHAR CHARACTER SET utf8mb4 ),
+		'$[*]' COLUMNS (
+			 title   		VARCHAR(100)  	PATH '$.title',
+			 description	VARCHAR(200)  	PATH '$.description',			
+             list			json			path '$.list'
+		   )   
+    ) as jt ;
 
+desc product_return;
+select rid, title, description, list from product_return;
 
+/*********************************************************************
+	장바구니 테이블 생성 : cart
+**********************************************************************/
+-- cid, pid, id, size, qty, cdate
+create table cart(
+	cid			int 	auto_increment		primary key,
+    size		char(2)	not null,
+    qty			int		not null,
+    pid			int		not null,
+    id			varchar(50)	not null,
+    cdate		datetime 	not null,
+    constraint fk_cart_pid	foreign key(pid) references product(pid) 
+	on delete cascade		on update cascade,
+	constraint fk_cart_id	foreign key(id) references member(id) 
+	on delete cascade		on update cascade        
+);
+
+show tables;
+desc cart;
+
+select now() from dual;
+select * from cart;
+
+-- mysql은 수정, 삭제 시 update mode를 변경
+SET SQL_SAFE_UPDATES = 0;
+
+select * from cart;
+delete from cart where cid in (1,2);
+select * from cart;
+
+-- pid, size를 이용하여 상품의 존재 check 
+-- checkQty = 1 인 경우 cid(⭕) 유효 데이터
+-- checkQty = 0 인 경우 cid(❌) 무효 데이터
+SELECT cid, sum(pid=1 AND size='xs') AS checkQty FROM cart GROUP BY cid
+order by checkQty desc
+limit 1;
+
+select * from cart;
+update cart set qty = qty + 1 where cid = 3;
+
+SELECT cid, sum(pid=1 AND size='xs' AND id='test') AS checkQty 
+FROM cart 
+GROUP BY cid, id
+order by checkQty desc
+limit 1;
 
 
 
