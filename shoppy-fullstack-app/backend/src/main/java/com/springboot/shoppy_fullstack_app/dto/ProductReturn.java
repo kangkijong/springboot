@@ -9,8 +9,3 @@ public class ProductReturn {
     private String description;
     private String list;
 }
-
-//rid	int
-//title	varchar(100)
-//description	varchar(200)
-//list	json

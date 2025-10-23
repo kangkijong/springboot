@@ -17,14 +17,22 @@ export const cartSlice = createSlice({
     },
     showCartItem (state, action) {
         const { items } = action.payload;
-        state.cartList = cartItemsAddInfo(items, state.cartList);
+        state.cartList = items;
+//        state.cartList = cartItemsAddInfo(items, state.cartList);
     },
-    updateCartCount (state) {          
-        state.cartCount = state.cartList.reduce((total, item) => total + item.qty, 0);
+    updateCartCount (state, action) {
+//        state.cartCount = state.cartList.reduce((total, item) => total + item.qty, 0);
+//        const { count, type } = action.payload;
+//        type? state.cartCount +=  count
+//                        : state.cartCount -= count;
+        state.cartCount = action.payload.count;
     },
-    updateTotalPrice (state) {
-        state.totalPrice 
-            = state.cartList.reduce((total, item) => total + (item.qty * item.price), 0);
+    resetCartCount(state){
+        state.cartCount = 0;
+    },
+    updateTotalPrice (state, action) {
+    console.log("totalPrice ==> ", action.payload.totalPrice);
+        state.totalPrice = action.payload.totalPrice;
     },
     updateCartItem (state, action) {
         const { cid, type } = action.payload;
@@ -43,7 +51,7 @@ export const cartSlice = createSlice({
 })
 
 export const {  addCartItem, updateCartCount, showCartItem, updateTotalPrice,
-                updateCartItem, removeCartItem
+                updateCartItem, removeCartItem, resetCartCount
              } = cartSlice.actions   //API 함수 또는 컴포넌트에서 dispatch(액션함수)
 
 export default cartSlice.reducer  //store  import

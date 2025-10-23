@@ -12,15 +12,15 @@ export function Cart() {
     const cartList = useSelector((state) => state.cart.cartList);
     const totalPrice = useSelector((state) => state.cart.totalPrice);   
       
-    useEffect(()=> {  dispatch(showCart());  }, []);    
+    useEffect(()=> {  dispatch(showCart());  }, []);
 
     return (
         <div className='cart-container'>
             <h2 className='cart-header'>장바구니</h2>
-            { cartList && cartList.map(item => 
+            { cartList && cartList.map(item =>
                 <div key={item.pid}>
                     <div className='cart-item'>
-                        <img src={item.image} alt="product img" />
+                        <img src={`/images/${item.image}`} alt="product img" />
                         <div className='cart-item-details'>
                             <p className='cart-item-title'>{item.name}</p>
                             <p className='cart-item-title'>{item.size}</p>
@@ -29,10 +29,10 @@ export function Cart() {
                         </div>
                         <div className='cart-quantity'>
                             <button type='button'
-                                    onClick={()=>{dispatch(updateCart(item.cid, '-'))}}>-</button> 
+                                    onClick={()=>{dispatch(updateCart(item.cid, "-"))}}>-</button>
                             <input type='text' value={item.qty} readOnly/>
                             <button type='button'
-                                    onClick={()=>{dispatch(updateCart(item.cid, '+'))}}>+</button>
+                                    onClick={()=>{dispatch(updateCart(item.cid, "+"))}}>+</button>
                         </div>
                         <button className='cart-remove'
                                 onClick={()=>{dispatch(removeCart(item.cid))}}> 

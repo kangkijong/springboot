@@ -1,83 +1,125 @@
 {
-    "category" : [
-        {"name":"제목", "value":"title"},
-        {"name":"내용", "value":"content"},
-        {"name":"등록날짜", "value":"cdate"}
-    ],
-    "menus" : [
-        {"href":"#", "name":"전체", "style":"filter-menu", "type": "all"},
-        {"href":"#", "name":"시스템점검", "style":"filter-menu", "type": "system"},
-        {"href":"#", "name":"극장", "style":"filter-menu", "type": "theater"},
-        {"href":"#", "name":"행사/이벤트", "style":"filter-menu", "type": "event"},
-        {"href":"#", "name":"제휴이벤트", "style":"filter-menu", "type": "partner"},
-        {"href":"#", "name":"기타", "style":"filter-menu", "type": "etc"}
-    ],
-    "list" : [
-        {
-            "type": "system",
-            "title": "iOS 18 업데이트 관련 예매 서비스 이용안내",
-            "rdate": "2024.09.13",
-            "hits": "118692"
-        },
-        {
-            "type": "system",
-            "title": "Android 업데이트 관련 예매 서비스 점검 안내",
-            "rdate": "2025.05.13",
-            "hits": "200000"
-        },
-        {
-            "type": "theater",
-            "title": "CGV 강남점 리뉴얼 오픈 안내",
-            "rdate": "2024.08.02",
-            "hits": "75421"
-        },
-        {
-            "type": "event",
-            "title": "추석 맞이 영화 할인 이벤트 진행!",
-            "rdate": "2024.09.01",
-            "hits": "183200"
-        },
-        {
-            "type": "partner",
-            "title": "카카오페이 결제 시 팝콘 50% 할인",
-            "rdate": "2025.01.15",
-            "hits": "142389"
-        },
-        {
-            "type": "etc",
-            "title": "CGV 앱 사용 꿀팁 안내",
-            "rdate": "2024.11.25",
-            "hits": "66009"
-        },
-        {
-            "type": "theater",
-            "title": "CGV 용산 아이파크몰 좌석 리뉴얼 안내",
-            "rdate": "2025.02.10",
-            "hits": "128772"
-        },
-        {
-            "type": "event",
-            "title": "CGV 포토티켓 무료 이벤트 진행 중!",
-            "rdate": "2024.06.30",
-            "hits": "192014"
-        },
-        {
-            "type": "partner",
-            "title": "KT 멤버십 고객 대상 할인 프로모션",
-            "rdate": "2024.10.05",
-            "hits": "117456"
-        },
-        {
-            "type": "etc",
-            "title": "모바일 앱 다크모드 기능 추가 안내",
-            "rdate": "2025.03.22",
-            "hits": "84012"
-        },
-        {
-            "type": "system",
-            "title": "서비스 안정화를 위한 긴급 점검 안내",
-            "rdate": "2024.12.19",
-            "hits": "152678"
-        }
-    ]
+  "category": [
+    {"name":"제목", "value":"title"},
+    {"name":"내용", "value":"content"},
+    {"name":"등록날짜", "value":"cdate"}
+  ],
+  "menus": [
+    { "href":"#", "name":"전체", "style":"filter-menu", "type":"all"},
+    { "href":"#", "name":"시스템점검", "style":"filter-menu", "type":"system"},
+    { "href":"#", "name":"극장", "style":"filter-menu", "type":"theater"},
+    { "href":"#", "name":"행사/이벤트", "style":"filter-menu", "type":"event"},
+    { "href":"#", "name":"제휴이벤트", "style":"filter-menu", "type":"partner"},
+    { "href":"#", "name":"기타", "style":"filter-menu", "type":"etc"}
+  ],
+  "list" : [
+    {
+      "type": "system",
+      "title": "iOS 18 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2024.09.13",
+      "hits": "118692"
+    },
+    {
+      "type": "system",
+      "title": "iOS 18 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2024.09.13",
+      "hits": "118692"
+    },
+    {
+      "type": "system",
+      "title": "iOS 18 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2024.09.13",
+      "hits": "118692"
+    },
+    {
+      "type": "system",
+      "title": "iOS 18 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2024.09.13",
+      "hits": "118692"
+    },
+    {
+      "type": "system",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "system",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "system",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "theater",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "event",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "theater",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "event",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "theater",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "event",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "partner",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "partner",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "etc",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "etc",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    },
+    {
+      "type": "system",
+      "title": "android 업데이트 관련 예매 서비스 이용안내",
+      "rdate": "2025.05.13",
+      "hits": "20000"
+    }
+  ]
 }

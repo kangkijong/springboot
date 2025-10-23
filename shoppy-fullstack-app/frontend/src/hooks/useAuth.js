@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext.js';
 
 /**
@@ -7,23 +7,24 @@ import { AuthContext } from '../context/AuthContext.js';
 export function useAuth() {
     const { isLogin, setIsLogin } = useContext(AuthContext);
 
-    // 로그인
+    //로그인
     const handleLogin = (userId) => {
         setIsLogin(!isLogin);
         const loginInfo = {
                     "userId": userId,
                     "token": "dkfj122345dfdf"
-        }
+                }
         // 로그인 정보를 브라우저 > Application Tab > Local Storage에 객체를 문자열로 저장
         localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
     }
 
-    // 로그아웃
+    //로그아웃
     const handleLogout = () => {
-        alert("로그아웃 되었습니다.")
+        alert("로그아웃 되었습니다.");
         setIsLogin(!isLogin);
         localStorage.removeItem("loginInfo");
     }
 
-    return {handleLogin, handleLogout}
+
+    return { handleLogin, handleLogout }
 }
