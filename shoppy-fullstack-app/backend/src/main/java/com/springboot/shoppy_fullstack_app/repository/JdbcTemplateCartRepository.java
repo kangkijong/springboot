@@ -20,26 +20,9 @@ public class JdbcTemplateCartRepository implements CartRepository{
     @Override
     public List<CartListResponse> findList(CartItem cartItem) {
         String sql = """
-                select  m.id,
-                        p.pid,
-                        p.name,
-                        p.image,
-                           p.price,
-                           c.size,
-                           c.qty,
-                           c.cid,
-                           (select sum(c.qty * p.price)
-                            from cart c
-                            inner join product p on c.pid = p.pid
-                            where c.id = ?) as totalPrice
-                   from member m, product p, cart c
-                   where m.id = c.id
-                    and p.pid = c.pid
-                    and m.id = ?              
+               select * from view_cartlist where id = ?   
                 """;
-        Object[] params = { cartItem.getId(), cartItem.getId() };
-        System.out.println(sql);
-        System.out.println(cartItem.getId());
+        Object[] params = { cartItem.getId() };
         return jdbcTemplate.query(sql,
                 new BeanPropertyRowMapper<>(CartListResponse.class), params);
     }
@@ -66,6 +49,7 @@ public class JdbcTemplateCartRepository implements CartRepository{
         } else {
             sql = " update cart set qty = qty - 1 where cid =? ";
         }
+        System.out.println("updateQty :: " + sql);
         return jdbcTemplate.update(sql, cartItem.getCid());
     }
 
@@ -85,7 +69,7 @@ public class JdbcTemplateCartRepository implements CartRepository{
         };
         CartItem resultCartItem = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(CartItem.class), params);
 
-        System.out.println("resultCartItem = " + resultCartItem);
+        System.out.println("checkQty :: resultCartItem = " + resultCartItem);
         return resultCartItem;
     }
 

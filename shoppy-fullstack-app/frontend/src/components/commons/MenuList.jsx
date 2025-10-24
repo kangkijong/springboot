@@ -4,7 +4,7 @@ import { useState } from 'react';
 export function MenuList({menus, filterList}) {
     const [active, setActive] = useState("전체");
     const handleClick = (type) => { 
-        console.log('name-->', type);        
+//         console.log('name-->', type);
         setActive(type); 
         filterList(type);
     }

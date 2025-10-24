@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { SearchForm } from '../components/commons/SearchForm.jsx';
 import { MenuList } from '../components/commons/MenuList.jsx';
 import { axiosData } from '../utils/dataFetch.js';
+import { getList } from '../feature/support/supportAPI.js';
 
 export function Support() {
     const [menus, setMenus] = useState([]);
@@ -11,24 +12,18 @@ export function Support() {
     useEffect(() => {
         const fetch = async() => {
             const jsonData = await axiosData("/data/support.json");
+            const list = await getList('all');
             setMenus(jsonData.menus);
             setCategory(jsonData.category);
-            setList(jsonData.list);
+            setList(list);
         }
         fetch();
     }, []);
 
-    const filterList = (type) => {
-        const filter = async() => {
-            const jsonData = await axiosData("/data/support.json");
-            if(type === 'all') {
-                setList(jsonData.list);
-            } else {
-                const filterData = jsonData.list.filter((item) => item.type === type);
-                setList(filterData);
-            }
-        }
-        filter();
+    const filterList = async(type) => {
+        console.log("type--->", type);
+        const list = await getList(type);
+        setList(list);
     }
 
     return (  
