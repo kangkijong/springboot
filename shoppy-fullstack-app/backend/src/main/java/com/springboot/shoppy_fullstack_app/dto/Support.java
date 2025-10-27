@@ -7,7 +7,8 @@ public class Support {
     private int sid;
     private String title;
     private String content;
-    private String type;
+    private String stype;
     private int hits;
     private String rdate;
 }
+

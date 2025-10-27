@@ -3,7 +3,7 @@ import { ImageList } from '../commons/ImageList.jsx';
 import { getDetailinfo } from '../../feature/product/productAPI.js';
 
 /**
- * ProductDetail > Detail
+ * ProductDetail > Detail  
  */
 export function Detail({imgList, pid}) {
     const [info, setInfo] = useState({});
@@ -30,7 +30,7 @@ export function DetailImages({imgList}) {
     return (
         <div className='detail-images'>
             <div style={{padding:"20px"}}></div>
-            <img src="/images/holidays_notice.jpg"
+            <img src="/images/holidays_notice.jpg" 
                  alt="notice" />
             <ImageList  imgList={imgList}
                         className="detail-images-list"  />

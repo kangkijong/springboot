@@ -17,7 +17,7 @@ export function Cart() {
     return (
         <div className='cart-container'>
             <h2 className='cart-header'>장바구니</h2>
-            { cartList && cartList.map(item =>
+            { cartList && cartList.map(item => 
                 <div key={item.pid}>
                     <div className='cart-item'>
                         <img src={`/images/${item.image}`} alt="product img" />
@@ -84,3 +84,4 @@ export function Cart() {
         </div>
     );
 }
+

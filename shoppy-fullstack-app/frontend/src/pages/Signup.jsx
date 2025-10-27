@@ -17,10 +17,10 @@ export function Signup() {
 
     const refs = useMemo(() => {  //Hooks 비동기식 처리 진행
         return initArray.reduce((acc,cur) => {
-            acc[`${cur}Ref`] = React.createRef();
+            acc[`${cur}Ref`] = React.createRef();         
             return acc;
         }, {});
-    });
+    });   
 
     const [form, setForm] = useState(initForm(initArray));  //{id:"hong", ...}
     const [errors, setErrors] = useState({...initForm(initArray), emailDomain: ""});
@@ -32,7 +32,7 @@ export function Signup() {
     }
 
     const handleResetForm = () => {
-        setForm(initForm(initArray));
+        setForm(initForm(initArray));       
     }
 
     const handleSubmit = async(e) => {
@@ -55,7 +55,7 @@ export function Signup() {
 
     return (
     <div className="content">
-
+        
         <div className="join-form center-layout">
             <h1 className="center-title">회원가입(React)</h1>
             <form onSubmit={handleSubmit}>
@@ -64,11 +64,11 @@ export function Signup() {
                         <label for="" ><b>아이디</b></label>
                         <span style={{color:"red", fontSize:"0.8rem"}}>{errors.id}</span>
                         <div>
-                            <input type="text"
-                                    name="id"
-                                    value={form.id}
-                                    ref={refs.idRef}
-                                    onChange={handleChangeForm}
+                            <input type="text" 
+                                    name="id"    
+                                    value={form.id}    
+                                    ref={refs.idRef} 
+                                    onChange={handleChangeForm}               
                                     placeholder = "아이디 입력(6~20자)" />
                             <button type="button"
                                     onClick={handleDupulicateIdCheck}
@@ -154,3 +154,4 @@ export function Signup() {
     </div>
     );
 }
+

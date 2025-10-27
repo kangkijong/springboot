@@ -15,3 +15,4 @@ export function SearchForm({ category }) {
         </div>
     );
 }
+

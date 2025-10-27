@@ -1,3 +1,4 @@
+
 export function Footer() {
     return (
         <div className="footer-outer">
@@ -14,8 +15,8 @@ export function Footer() {
                     고객센터 : 1566-5027
                 </p>
                 <p>
-                    COPYRIGHT ⓒ ㈜더블유컨셉코리아 ALL RIGHT RESERVED.
-                </p>
+                    COPYRIGHT ⓒ ㈜더블유컨셉코리아 ALL RIGHTS RESERVED.
+                </p> 
             </div>
         </div>
     );

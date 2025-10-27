@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SupportServiceImpl implements SupportService {
+public class SupportServiceImpl implements SupportService{
 
     private SupportRepository supportRepository;
 
@@ -19,7 +19,7 @@ public class SupportServiceImpl implements SupportService {
     @Override
     public List<Support> findAll(Support support) {
         List<Support> list = null;
-        if(support.getType().equals("all")) {
+        if(support.getStype().equals("all")) {
             list = supportRepository.findAll();
         } else {
             list = supportRepository.findAll(support);

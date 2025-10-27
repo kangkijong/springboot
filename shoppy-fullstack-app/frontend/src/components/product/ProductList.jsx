@@ -23,15 +23,16 @@ export function ProductList() {
     
     return (
         <div>
-            {productList && productList.map((rowArray, idx) => 
-                <div className='product-list' key={idx} >
-                    {rowArray && rowArray.map((product, idx) =>
-                        <Link to={`/products/${product.pid}`} key={idx} >
-                            <ProductAvatar img={product.image} />
-                        </Link>                          
-                    )}
-                </div>
-                )}
+                {productList && productList.map((rowArray, idx) => 
+                    <div className='product-list' key={idx} >
+                        {rowArray && rowArray.map((product, idx) =>
+                            <Link to={`/products/${product.pid}`} key={idx}>
+                                <ProductAvatar img={product.image}  />
+                            </Link>                          
+                        )}
+                    </div>
+                 )}
         </div>
     );
 }
+

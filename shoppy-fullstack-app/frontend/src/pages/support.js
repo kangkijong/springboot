@@ -54,16 +54,8 @@ async function createTable(type) { //list는 array type
     }
 
     let output = `
-        <table class="stable">
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>구분</th>
-                    <th>제목</th>
-                    <th>등록일</th>
-                    <th>조회수</th>
-                </tr>
-            </thead>
+        <table class="stable"><thead><tr><th>번호</th><th>구분</th><th>제목</th><th>등록일</th><th>조회수</th>
+        </tr></thead>
             <tbody>
                 ${ list.map((item, index) => `
                     <tr>

@@ -13,12 +13,3 @@ public class ProductQna {
     private int pid;
     private String cdate;
 }
-
-//qid	int
-//title	varchar(100)
-//content	varchar(200)
-//is_complete	tinyint(1)
-//is_lock	tinyint(1)
-//id	varchar(50)
-//pid	int
-//cdate	datetime

@@ -65,3 +65,4 @@ export function useCart() {
 
     return { addCart, showCart, updateCart, removeCart }
 }
+

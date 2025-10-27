@@ -24,4 +24,4 @@ export const counterSlice = createSlice({
 export const { increment, decrement, incrementByAmount } 
 = counterSlice.actions   //API 함수 또는 컴포넌트에서 dispatch(액션함수)
 
-export default counterSlice.reducer  //store import
+export default counterSlice.reducer  //store  import

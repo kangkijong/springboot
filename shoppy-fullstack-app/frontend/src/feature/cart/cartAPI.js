@@ -4,6 +4,7 @@ import { addCartItem, updateCartCount,
          updateCartItem, removeCartItem } from './cartSlice.js';
 import { axiosData, axiosPost } from '../../utils/dataFetch.js';
 
+
 export const getCartCount = (id) => async(dispatch) => {
     const url = "/cart/count";
     const data = {"id": id};
@@ -60,3 +61,4 @@ export const addCart = (pid, size) => async (dispatch) => {
       }
       dispatch(getCartCount(userId));
 }
+

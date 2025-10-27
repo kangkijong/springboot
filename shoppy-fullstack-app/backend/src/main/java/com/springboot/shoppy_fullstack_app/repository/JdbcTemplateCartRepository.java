@@ -20,7 +20,9 @@ public class JdbcTemplateCartRepository implements CartRepository{
     @Override
     public List<CartListResponse> findList(CartItem cartItem) {
         String sql = """
-               select * from view_cartlist where id = ?   
+                select id, mname, phone, email, pid, name, info, image, price, size, qty, cid, totalPrice\s
+                from view_cartlist
+                where id = ?
                 """;
         Object[] params = { cartItem.getId() };
         return jdbcTemplate.query(sql,
@@ -49,13 +51,13 @@ public class JdbcTemplateCartRepository implements CartRepository{
         } else {
             sql = " update cart set qty = qty - 1 where cid =? ";
         }
-        System.out.println("updateQty :: " + sql);
+//        System.out.println("updateQty :: " + sql);
         return jdbcTemplate.update(sql, cartItem.getCid());
     }
 
     @Override
     public CartItem checkQty(CartItem cartItem) {
-        System.out.println("CartRepository :: " + cartItem.getPid() + cartItem.getSize() + cartItem.getId());
+//        System.out.println("CartRepository :: " + cartItem.getPid() + cartItem.getSize() + cartItem.getId());
         String sql = """
                 SELECT
                    ifnull(MAX(cid), 0) AS cid,
@@ -69,7 +71,7 @@ public class JdbcTemplateCartRepository implements CartRepository{
         };
         CartItem resultCartItem = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(CartItem.class), params);
 
-        System.out.println("checkQty :: resultCartItem = " + resultCartItem);
+//        System.out.println("checkQty :: resultCartItem = " + resultCartItem);
         return resultCartItem;
     }
 

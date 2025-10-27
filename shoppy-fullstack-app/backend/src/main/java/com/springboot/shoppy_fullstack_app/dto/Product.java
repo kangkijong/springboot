@@ -14,3 +14,4 @@ public class Product {
     private String image;
     private String imgList;
 }
+

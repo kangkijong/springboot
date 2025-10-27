@@ -11,7 +11,8 @@ import { Support } from './pages/Support.jsx';
 import { CartProvider } from './context/CartContext.js';
 import { AuthProvider } from './context/AuthContext.js';
 import { ProductProvider } from './context/ProductContext.js';
-import { ProtectedPageRoute } from './pages/ProtectedPageRoute.js';
+import { ProectedPageRoute } from './pages/ProectedPageRoute.js';
+import { PayResult } from './pages/PayResult.jsx';
 
 import './styles/cgvSignup.css';
 import './styles/cgv.css';
@@ -31,19 +32,20 @@ export default function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/cart" 
-                  element={  <ProtectedPageRoute>
+                  element={  <ProectedPageRoute>
                                 <Cart />
-                            </ProtectedPageRoute>  } />
+                            </ProectedPageRoute>  } />
           <Route path="/products/:pid" element={<ProductDetail />} />
           <Route path="/checkout" 
-                 element={  <ProtectedPageRoute>
+                 element={  <ProectedPageRoute>
                                 <CheckoutInfo />
-                            </ProtectedPageRoute>  } />
+                            </ProectedPageRoute>  } />
+          <Route path="/payResult" element={<PayResult />} />
                 
           <Route path="/support" element={
-            <ProtectedPageRoute>
+            <ProectedPageRoute>
               <Support />
-            </ProtectedPageRoute>
+            </ProectedPageRoute>
             } />
         </Route>
       </Routes>
@@ -53,3 +55,10 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+
+
+
+
+
+

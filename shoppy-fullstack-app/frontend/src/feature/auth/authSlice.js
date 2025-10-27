@@ -21,7 +21,7 @@ export const authSlice = createSlice({
   },
 })
 
-export const { login, logout }
+export const { login, logout } 
     = authSlice.actions   //API 함수 또는 컴포넌트에서 dispatch(액션함수)
 
 export default authSlice.reducer  //store  import

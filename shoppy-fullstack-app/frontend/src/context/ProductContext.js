@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState } from "react";
 
 export const ProductContext = createContext();
 
@@ -8,12 +8,14 @@ export const ProductProvider = ({children}) => {
     const [imgList, setImgList] = useState([]);
 
     return (
-        <ProductContext.Provider value={{
+        <ProductContext.Provider value={{  
                                         productList, setProductList,
                                         product, setProduct,
                                         imgList, setImgList
                                     }}>
-            {children}
+            {children}  
         </ProductContext.Provider>
     );
 }
+
+

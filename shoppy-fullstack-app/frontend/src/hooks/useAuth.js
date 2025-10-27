@@ -9,13 +9,13 @@ export function useAuth() {
 
     //로그인
     const handleLogin = (userId) => {
-        setIsLogin(!isLogin);
+        setIsLogin(!isLogin); 
         const loginInfo = {
                     "userId": userId,
                     "token": "dkfj122345dfdf"
                 }
         // 로그인 정보를 브라우저 > Application Tab > Local Storage에 객체를 문자열로 저장
-        localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+        localStorage.setItem("loginInfo", JSON.stringify(loginInfo)); 
     }
 
     //로그아웃
@@ -28,3 +28,4 @@ export function useAuth() {
 
     return { handleLogin, handleLogout }
 }
+

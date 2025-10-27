@@ -7,11 +7,11 @@ import { getList } from '../feature/support/supportAPI.js';
 export function Support() {
     const [menus, setMenus] = useState([]);
     const [category, setCategory] = useState([]);
-    const [list,setList] = useState([]);
+    const [list, setList] = useState([]);  
 
-    useEffect(() => {
+    useEffect(()=>{
         const fetch = async() => {
-            const jsonData = await axiosData("/data/support.json");
+            const jsonData = await axiosData("/data/support.json"); //카테고리 가져오기
             const list = await getList('all');
             setMenus(jsonData.menus);
             setCategory(jsonData.category);
@@ -20,11 +20,10 @@ export function Support() {
         fetch();
     }, []);
 
-    const filterList = async(type) => {
-        console.log("type--->", type);
-        const list = await getList(type);
+    const filterList = async(stype) => {
+        const list = await getList(stype);
         setList(list);
-    }
+    }    
 
     return (  
         <div className="content">
@@ -47,7 +46,7 @@ export function Support() {
                             {list && list.map((item, idx) => 
                                 <tr>
                                     <td>{idx + 1}</td>
-                                    <td>[{item.type}]</td>
+                                    <td>[{item.stype}]</td>
                                     <td>{item.title}</td>
                                     <td>{item.rdate}</td>
                                     <td>{item.hits}</td>
@@ -55,7 +54,7 @@ export function Support() {
                             )}
                         </tbody>
                         <tfoot>
-                            <tr><td colspan="5"> 1 2 3 4 5 {">>"} </td></tr>
+                            <tr><td colSpan={5}> 1 2 3 4 5 {">>"} </td></tr>
                         </tfoot>
                     </table>
                 </div>
@@ -64,3 +63,4 @@ export function Support() {
         </div>
     );
 }
+

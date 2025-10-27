@@ -1,13 +1,29 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import "../styles/cart.css";
 import "../styles/checkoutinfo.css";
+import { getPayment } from '../feature/payment/paymentAPI.js';
 
 export function CheckoutInfo() {
+    const [receiver, setReceiver] = useState({
+            "name": "홍길동",
+            "phone": "010-1234-1234",
+            "zipcode": "12345",
+            "address1": "서울시 강남구 역삼동",
+            "address2": "123",
+            "memo": "문앞"
+        });
     const cartList = useSelector((state) => state.cart.cartList);
     const totalPrice = useSelector((state) => state.cart.totalPrice);
     const name = cartList[0].mname;
     const phone = cartList[0].phone;
     const email = cartList[0].email;
+    const [change, setChange] = useState(false);
+
+  /** payment */
+  const handlePayment = async() => {
+      const result = await getPayment(receiver);
+  }
 
 return (
     <div className="cart-container">
@@ -40,17 +56,17 @@ return (
         <div className="info-box">
         <div className="info-grid">
             <div className="label">이름</div>
-            <div className="value">홍길동</div>
+            <div className="value">{receiver.name}</div>
 
             <div className="label">배송주소</div>
-            <div className="value">12345 / 서울시 강남구 역삼동 123</div>
+            <div className="value">{receiver.zipcode} / {receiver.address1} {receiver.address2}</div>
           
             <div className="label">연락처</div>
-            <div className="value">010-1234-1234</div>
+            <div className="value">{receiver.phone}</div>
 
             <div className="label">배송 요청사항</div>
             <div className="value phone-input">
-            <input type="text" defaultValue="문 앞" />
+            <input type="text" defaultValue={receiver.memo} />
             <button className="btn">변경</button>
             </div>
         </div>
@@ -141,7 +157,7 @@ return (
         <label for="privacy">개인정보 국외 이전 동의</label>
     </div>
 
-    <button className="pay-button">결제하기</button>
+     <button className="pay-button" onClick={handlePayment}>결제하기</button>
     </div>
 );
 }

@@ -9,11 +9,4 @@ public class ProductDetailinfo {
     private String list;
     private String titleEn;
     private String titleKo;
-
-//    desc product_detailinfo;
-//    did	int
-//    title_en	varchar(100)
-//    title_ko	varchar(100)
-//    pid	int
-//    list	json
 }

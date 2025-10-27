@@ -21,6 +21,7 @@ export const getQna = async(pid) => {
     return qna;
 }
 
+
 /**
     상품 상세 정보
 */
@@ -45,3 +46,4 @@ export const getProductList = (number) => async(dispatch) => {
     const rows = groupByRows(jsonData, number);
     dispatch(createProduct({"productList": rows, "products":jsonData}));
 }
+

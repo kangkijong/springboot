@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 //@Transactional  //: DB가 auto-commit 모드이면 생략가능
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 

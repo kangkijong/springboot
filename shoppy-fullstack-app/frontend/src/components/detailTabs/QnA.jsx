@@ -25,19 +25,19 @@ export function QnA({pid}) {
     return (
         <div>
             <div style={{paddingTop:"20px"}}>
-                {isOpen &&
-                    <button type="button"
+                {isOpen && 
+                    <button type="button" 
                             style={{backgroundColor:"green"}}
                             onClick={handleToggleButton}>
-                        상품 문의</button>
+                        상품 문의</button>                    
                 }
-                {!isOpen &&
-                    <button type="button"
+                {!isOpen && 
+                    <button type="button" 
                             style={{backgroundColor:"coral"}}
                             onClick={handleToggleButton}>
                         상품 문의</button>
-                }
-                {!isOpen && <span>버튼이 코랄색 입니다.</span>}
+                }    
+                {!isOpen && <span>버튼이 코랄색 입니다.</span>}            
             </div>
             <table className='review-list-content'>
                 <tbody>
@@ -66,3 +66,4 @@ export function QnA({pid}) {
         </div>
     );
 }
+

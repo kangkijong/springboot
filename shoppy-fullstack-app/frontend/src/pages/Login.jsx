@@ -29,7 +29,7 @@ export function Login() {
             setErrors: setErrors,
             errors: errors
         }
-
+       
         const succ = await dispatch(getLogin(formData, param));
 
         if(succ) {
