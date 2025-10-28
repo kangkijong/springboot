@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.deploy.deploy.DeployApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-10-14T06:09:07.001Z" hostname="DESKTOP-8VK6S2J" time="0.542">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.deploy.deploy.DeployApplicationTests" time="0.542"/>
+  <system-out><![CDATA[15:09:05.401 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.deploy.deploy.DeployApplicationTests]: DeployApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:09:05.511 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.deploy.deploy.DeployApplication for test class com.deploy.deploy.DeployApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-10-14T15:09:05.916+09:00  INFO 2984 --- [deploy] [    Test worker] c.deploy.deploy.DeployApplicationTests   : Starting DeployApplicationTests using Java 21.0.7 with PID 2984 (started by TJ in C:\dev\springboot\deploy)
+2025-10-14T15:09:05.916+09:00  INFO 2984 --- [deploy] [    Test worker] c.deploy.deploy.DeployApplicationTests   : No active profile set, falling back to 1 default profile: "default"
+2025-10-14T15:09:06.663+09:00  INFO 2984 --- [deploy] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-10-14T15:09:06.984+09:00  INFO 2984 --- [deploy] [    Test worker] c.deploy.deploy.DeployApplicationTests   : Started DeployApplicationTests in 1.317 seconds (process running for 2.364)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\TJ\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.7\fbf3d6d649ed37fc9e9c59480a05be0a26e3c2da\byte-buddy-agent-1.17.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

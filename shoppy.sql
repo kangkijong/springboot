@@ -75,10 +75,33 @@ create table product_detailinfo (
 desc product_detailinfo;
 select * from product_detailinfo;
 
--- mac, windows : mysql에서 json, csv, excel... 데이터 파일을 업로드 하는 경로
+-- mysql에서 json, csv, excel... 데이터 파일을 업로드 하는 경로
 show variables like 'secure_file_priv';
 
--- mac
+-- mac os
+-- set global local_infile = 1;
+
+-- CREATE TEMPORARY TABLE tmp_products (doc JSON);
+
+-- -- 관리자 계정으로
+-- SET GLOBAL local_infile = 1;
+-- SHOW GLOBAL VARIABLES LIKE 'local_infile';  -- ON 인지 확인
+
+-- LOAD DATA LOCAL INFILE '/Users/leekm/Downloads/products.json'
+-- INTO TABLE tmp_products
+-- FIELDS TERMINATED BY '\t'
+-- LINES TERMINATED BY '\n'
+-- (@row) SET doc = CAST(@row AS JSON);
+
+-- SET @j = CAST(LOAD_FILE('/Users/leekm/Downloads/products.json') AS CHAR CHA-- RACTER SET utf8mb4);
+
+-- SET @json = LOAD_FILE('/Users/leekm/Downloads/products.json');
+
+-- SELECT LENGTH(@j), JSON_VALID(@j);
+
+-- SHOW VARIABLES LIKE 'secure_file_priv';
+
+-- ********
 SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/products.json') AS CHAR CHARACTER SET utf8mb4);
 
 -- JSON이 잘 읽혔는지 확인
@@ -86,8 +109,7 @@ SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
 -- len > 0, is_valid = 1 이면 OK
 
 
--- mac
-/*
+-- 실제 삽입
 INSERT INTO product_detailinfo (title_en, title_ko, pid, `list`)
 SELECT 
     jt.title_en,
@@ -103,28 +125,50 @@ FROM JSON_TABLE(
         `list`     JSON         PATH '$.detailInfo.list'
     )
 ) AS jt;
-*/
 
--- windows
-/*
-insert into product_detailinfo(title_en, title_ko, pid, list)
-select 
-	jt.title_en,
-    jt.title_ko,
-    jt.pid,
-    jt.list
-from
-	json_table(
-		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/products.json') 
-				AS CHAR CHARACTER SET utf8mb4 ),
-		'$[*]' COLUMNS (
-			 title_en   	VARCHAR(100)  PATH '$.detailInfo.title_en',
-			 title_ko   	VARCHAR(100)  PATH '$.detailInfo.title_ko',
-			 list   	json PATH '$.detailInfo.list',
-			 pid		int	 PATH '$.pid'
-		   )   
-    ) as jt ;
-*/
+
+--
+
+select * from product_detailinfo;
+
+-- INSERT INTO product_detailinfo(title_en, title_ko, pid, `list`)
+-- SELECT 
+--   jt.title_en,
+--   jt.title_ko,
+--   jt.pid,
+--   jt.`list`
+-- FROM tmp_products tp,
+-- JSON_TABLE(
+--   tp.doc,                         -- (배열이면 '$[*]'; 객체면 경로 조정)
+--   '$[*]' COLUMNS (
+--     title_en VARCHAR(100) PATH '$.detailInfo.title_en',
+--     title_ko VARCHAR(100) PATH '$.detailInfo.title_ko',
+--     `list`   JSON         PATH '$.detailInfo.list',
+--     pid      INT          PATH '$.pid'
+--   )
+-- ) AS jt;
+
+
+-- 
+
+-- products.json 파일의 detailinfo 정보 매핑
+-- insert into product_detailinfo(title_en, title_ko, pid, list)
+-- select 
+-- 	jt.title_en,
+--     jt.title_ko,
+--     jt.pid,
+--     jt.list
+-- from
+-- 	json_table(
+-- 		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/products.json') 
+-- 				AS CHAR CHARACTER SET utf8mb4 ),
+-- 		'$[*]' COLUMNS (
+-- 			 title_en   	VARCHAR(100)  PATH '$.detailInfo.title_en',
+-- 			 title_ko   	VARCHAR(100)  PATH '$.detailInfo.title_ko',
+-- 			 list   	json PATH '$.detailInfo.list',
+-- 			 pid		int	 PATH '$.pid'
+-- 		   )   
+--     ) as jt ;
 
 select * from product_detailinfo;
 
@@ -168,15 +212,13 @@ select * from product_qna;
 -- mysql에서 json, csv, excel... 데이터 파일을 업로드 하는 경로
 show variables like 'secure_file_priv';
 
--- mac
--- SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/productQnA.json') AS CHAR CHARACTER SET utf8mb4);
+SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/productQnA.json') AS CHAR CHARACTER SET utf8mb4);
 
--- mac : JSON load 확인
--- SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
+-- JSON이 잘 읽혔는지 확인
+SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
 -- len > 0, is_valid = 1 이면 OK
 
--- mac : product_qna data insert
-/*
+-- product_qna data insert
 insert into product_qna(title, content, is_complete, is_lock, id, pid, cdate)
 SELECT 
     jt.title,
@@ -198,7 +240,6 @@ FROM JSON_TABLE(
              cdate			datetime		path '$.cdate'
 		   ) 
 ) AS jt;
-*/
 
 select * from product_qna;
 select * from member;
@@ -234,14 +275,14 @@ create table product_return (
 desc product_return;
 select * from product_return;
 
--- mac : json 파일 형식은 [ { ~~} ], 배열로 감싼 형식
--- SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/productReturn.json') AS CHAR CHARACTER SET utf8mb4);
+-- json 파일 형식은 [ { ~~} ], 배열로 감싼 형식
+SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/productReturn.json') AS CHAR CHARACTER SET utf8mb4);
 
--- mac : JSON이 잘 읽혔는지 확인
--- SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
 
--- mac : json_table을 이용하여 데이터 추가
-/*
+-- JSON이 잘 읽혔는지 확인
+SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
+
+-- json_table을 이용하여 데이터 추가
 insert into product_return(title, description, `list`)
 select 
 	jt.title,
@@ -255,7 +296,6 @@ FROM JSON_TABLE(
 			 `list` 		json	 		PATH '$.list'
 		   ) 
 ) AS jt;
-*/
 
 desc product_return;
 select rid, title, description, list from product_return;
@@ -289,64 +329,114 @@ SET SQL_SAFE_UPDATES = 0;
 select * from cart;
 delete from cart where cid in (1,2);
 select * from cart;
-delete from cart;
 
 -- pid, size를 이용하여 상품의 존재 check 
 -- checkQty = 1 인 경우 cid(⭕) 유효 데이터
 -- checkQty = 0 인 경우 cid(❌) 무효 데이터
+SELECT cid, sum(pid=1 AND size='xs') AS checkQty FROM cart GROUP BY cid
+order by checkQty desc
+limit 1;
+
+select * from cart;
+
+select count(*)
+from (
+SELECT cid, sum(pid=1 AND size='xs' and id='test') AS checkQty
+                	FROM cart
+                	GROUP BY cid, id
+                	order by checkQty desc
+                	limit 1 ) t;
+                    
+                    
+-- 
+(
+    SELECT 
+        cid, 
+        (SELECT COUNT(*) FROM cart WHERE pid=1 AND size='xs' AND id='test') AS checkQty
+    FROM 
+        cart 
+    WHERE 
+        pid=1 AND size='xs' AND id='test'
+    LIMIT 1 -- 실제 cid가 여러 개일 경우 하나만 가져옴
+)
+UNION ALL
+(
+    SELECT 
+        NULL AS cid, 
+        0 AS checkQty
+)
+ORDER BY 
+    checkQty DESC
+LIMIT 1; -- 두 행 중 checkQty가 더 큰(즉, 데이터가 있는) 행을 우선 선택
+
+-- 
+SELECT 
+    MAX(checkQty) AS checkQty,
+    MAX(cid) AS cid
+FROM (
+    SELECT cid, COUNT(*) AS checkQty
+    FROM cart
+    WHERE pid = 1 AND size = 'xs' AND id = 'test'
+    UNION ALL
+    SELECT NULL, 0
+) t;
+
+--
+SELECT 
+    MAX(t.cid) AS cid,
+    MAX(t.checkQty) AS checkQty
+FROM (
+    SELECT cid, COUNT(*) AS checkQty
+    FROM cart
+    WHERE pid = 1 AND size = 'xs' AND id = 'test'
+    UNION ALL
+    SELECT NULL AS cid, 0 AS checkQty
+) AS t;
+--
+
+SELECT
+  (SELECT cid
+     FROM cart
+     WHERE pid = 1 AND size = 'xs' AND id = 'test'
+     LIMIT 1) AS cid,
+  COUNT(*) AS checkQty
+FROM cart
+WHERE pid = 1 AND size = 'xs' AND id = 'test';
+
+
+
+select * from cart;
+
+--
 SELECT 
       ifnull(MAX(cid), 0) AS cid,
       COUNT(*) AS checkQty
     FROM cart
     WHERE pid = 1 AND size = 'xs' AND id = 'test';
-
+    
+-- 
+ select  m.id,
+                        p.pid,
+                        p.name,
+                        p.image,
+                           p.price,
+                           c.size,
+                           c.qty,
+                           c.cid,
+                           (select sum(c.qty * p.price)
+                            from cart c
+                            inner join product p on c.pid = p.pid
+                            where c.id = 'test') as totalPrice
+                   from member m, product p, cart c
+                   where m.id = c.id
+                    and p.pid = c.pid
+                    and m.id = 'test' ;
+				
 select * from cart;
-select * from member;
 
--- 장바구니 상품갯수 조회
-select count(qty) from cart where id = 'test';
-select ifnull(sum(qty), 0) as sumQty from cart where id = 'hong1234';  
-
--- 장바구니 리스트 조회 : 상품(product) + 장바구니(cart) + 회원(member) 
--- 어떤 회원이 어떤 상품을 몇개 넣었는가???
-select  m.id,
-		m.name,
-        m.phone,
-        m.email,
-		p.pid,
-		p.name,
-        p.info,
-		p.image,
-        p.price,
-        c.size,
-        c.qty,
-        c.cid,
-        (select sum(c.qty * p.price) as total_price
-			from cart c
-			inner join product p on c.pid = p.pid
-			where c.id = 'hong') as total
-from member m, product p, cart c
-where m.id = c.id 
-	and p.pid = c.pid
-	and m.id = 'hong'; 
-
-select * from cart;   
-select * from member;
-
--- 장바구니 총 상품 가격 : qty(cart), price(product)
-select sum(c.qty * p.price) as total_price
-from cart c
-inner join product p on c.pid = p.pid
-where c.id = 'hong';
-
-
--- 장바구니 리스트 VIEW 생성
-show tables from information_schema;
-select * from information_schema.views where table_schema = 'shoppy';
-drop view view_cartlist;
-
-select * from view_cartlist where id ='hong1234';
-
+/*********************************************************************
+	장바구니 리스트 VIEW  생성 : view_cartlist
+**********************************************************************/
 create view view_cartlist
 as
 select  m.id,
@@ -372,57 +462,170 @@ select  m.id,
     and c.id = t.id
 ; 
 
-select id, mname, phone, email, pid, name, info, image, price, size, qty, vc.cid, totalPrice 
-from view_cartlist vc,
-	(select sum(c.qty * p.price) as totalPrice
-		from cart c
-		inner join product p on c.pid = p.pid
-		where c.id = 'hong'
-		) as total
-where vc.cid = total.cid   
-;                   
+select id, mname, phone, email, pid, name, info, image, price, size, qty, cid, totalPrice 
+from view_cartlist
+where id='hong';
 
-select * from view_cartlist;
 
-select c.id, sum(c.qty * p.price) as totalPrice
-		from cart c
-		inner join product p on c.pid = p.pid
-		group by c.id;
-        
 /*********************************************************************
-	고객센터 테이블생성 : support
-**********************************************************************/        
+	고객센터 테이블 생성 : support
+**********************************************************************/
 create table support(
-	sid			int					auto_increment		primary key,
-    title			varchar(100)		not null,
+	sid			int		auto_increment	primary key,    
+    title		varchar(100)	not null,
     content		varchar(200),
-    `type`			varchar(30)		not null,
-    hits			int,
-    rdate			datetime
+    stype		varchar(30)	 not null,
+    hits		int,
+    rdate		datetime
 );
 
 show tables;
 
-INSERT INTO support(title, `type`, hits, rdate)
-SELECT 
-    jt.title,
-    jt.`type`,
+/* mac os
+-- json 파일 형식은 [ { ~~} ], 배열로 감싼 형식
+SET @json = CAST(LOAD_FILE('/usr/local/mysql-files/support_list.json') AS CHAR CHARACTER SET utf8mb4);
+
+
+-- JSON이 잘 읽혔는지 확인
+SELECT LENGTH(@json) AS len, JSON_VALID(@json) AS is_valid;
+
+
+insert into support(title, stype, hits, rdate)
+select 
+	jt.title,
+    jt.stype,
     jt.hits,
     jt.rdate
-FROM 
-	JSON_TABLE(
-		CAST(LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json')
-			AS CHAR CHARACTER SET utf8mb4),
-			'$[*]' COLUMNS (
-				title     VARCHAR(100)  PATH '$.title',
-				`type`     VARCHAR(30)   PATH '$.type',
-				hits      INT           PATH '$.hits',
-				rdate     DATETIME      PATH '$.rdate'
-			)
-	) AS jt;
-    
-SELECT * from support;
+from
+	json_table(
+		@json,
+		'$[*]' COLUMNS (
+			 title   	VARCHAR(100)  PATH '$.title',
+			 stype   	VARCHAR(30)  PATH '$.type',
+			 hits   	int PATH '$.hits',
+			 rdate		datetime	 PATH '$.rdate'
+		   )   
+    ) as jt ;
+    */
+
+
+-- windows
+insert into support(title, stype, hits, rdate)
+select 
+	jt.title,
+    jt.stype,
+    jt.hits,
+    jt.rdate
+from
+	json_table(
+		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json') 
+				AS CHAR CHARACTER SET utf8mb4 ),
+		'$[*]' COLUMNS (
+			 title   	VARCHAR(100)  PATH '$.title',
+			 stype   	VARCHAR(30)  PATH '$.type',
+			 hits   	int PATH '$.hits',
+			 rdate		datetime	 PATH '$.rdate'
+		   )   
+    ) as jt ;
+
+select * from support;
+select distinct stype from support;
 desc support;
 
-select sid, title, `type`, hits, rdate from support;
+select sid, title, stype, hits, rdate from support;
 
+
+/*********************************************************************
+	주문 테이블 : orders
+**********************************************************************/
+use shoppy;
+select database();
+select * from member;
+desc member;
+-- drop table orders;
+create table orders (
+  oid         		int 			auto_increment	primary key,
+  order_code		varchar(40)		not null	unique,		-- 카카오 partner_order_id로 사용
+  member_id	      	varchar(50)    	not null,			-- 회원 아이디
+  status        	enum('대기중','결제중','결제완료','취소','환불','만료')
+					not null default	'대기중',
+  shipping_fee     	int				not null 	default 0,	-- 배송비
+  discount_amount  	int				not null 	default 0,	-- 할인금액
+  total_amount     	int				not null,  				-- 결제요청 금액(= 카카오 amount.total)
+
+  -- 수취/배송 
+  receiver_name    	varchar(50),
+  receiver_phone   	varchar(50),
+  zipcode          	varchar(20),
+  address1         	varchar(255),
+  address2         	varchar(255),
+  memo             	varchar(255),
+  odate				datetime,
+  
+  constraint fk_orders_member foreign key(member_id)	references member(id)
+		on delete cascade	on update cascade
+);
+
+show tables;
+desc orders;
+select * from product;
+
+/*********************************************************************
+	주문 상세 테이블 : order_detail
+**********************************************************************/
+create table order_detail (
+	odid			int				auto_increment		primary key,
+	order_code		varchar(40)		not null,	
+    pid				int				not null,
+    pname			varchar(50),
+    size			char(2),
+    qty				int,
+    pid_total_price	decimal,		-- 상품 토탈가격
+    discount		decimal,		-- 할인 금액
+	
+    constraint fk_order_order_detail foreign key(order_code)	references orders(order_code)
+		on delete cascade   on update cascade,
+	constraint fk_product_order_detail foreign key(pid)	references product(pid)
+		on delete cascade  on update cascade
+);
+
+show tables;
+desc order_detail;
+
+select * from view_cartlist where id = "hong";
+desc view_cartList;
+
+select * from orders;
+select * from order_detail;
+desc orders;
+select * from order_detail;
+
+--
+INSERT INTO 
+	order_detail(order_code, pid, pname, size, qty, pid_total_price, discount)
+SELECT 
+	'abc', pid, name AS pname, size, qty, totalPrice AS pid_total_price, 
+	0
+FROM view_cartlist
+WHERE cid IN (38,40,42);
+
+select * from view_cartlist;
+
+
+
+-- mysql은 수정, 삭제 시 update mode를 변경
+SET SQL_SAFE_UPDATES = 0;
+
+delete from orders;   
+      
+select * from orders;
+select * from order_detail;
+
+
+
+
+
+
+    
+    
+    

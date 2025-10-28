@@ -1,16 +1,20 @@
 import { axiosPost } from '../../utils/dataFetch.js';
 
-export const getPayment = async(receiver) => {
-    //userId, orderId, itemName, totalPrice ...
+export const getPayment = async(receiver, paymentInfo, cartList) => {
+console.log(cartList);
+    const cidList = cartList.map(item => item.cid);
+    const qty = cartList.reduce((sum, item) => sum + parseInt(item.qty), 0);
     const { userId } = JSON.parse(localStorage.getItem("loginInfo"));
     const url = "/payment/kakao/ready";  //카카오 QR 코드 호출
     const data = {
         "orderId": "",
         "userId": userId,
-        "itemName": "test",
-        "qty": "10",
-        "totalAmount": "1000",
-        "receiver": receiver
+        "itemName": cartList[0].name,
+        "qty": qty,
+        "totalAmount": cartList[0].totalPrice,
+        "receiver": receiver,
+        "paymentInfo": paymentInfo,
+        "cidList": cidList  //[38, 40, 42]
     }
 
     try {
