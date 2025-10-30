@@ -34,12 +34,13 @@ export const getLogin = (formData, param) => async(dispatch) => {
     if(validateFormCheck(param)) {
         const url = "/member/login";
         const result = await axiosPost(url, formData);
-        if(result) {
+        console.log("result :: ", result);
+        if(result.login) {
             dispatch(login({"userId":formData.id}));
 //            const count = await getCartCount(formData.id);
             dispatch(getCartCount(formData.id));
             return true;
-        } 
+        }
     }
     return false;
 }

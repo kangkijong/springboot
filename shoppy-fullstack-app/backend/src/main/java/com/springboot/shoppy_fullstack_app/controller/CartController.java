@@ -30,6 +30,7 @@ public class CartController {
 
     @PostMapping("/list")
     public List<CartListResponse> findList(@RequestBody CartItem cartItem) {
+
         return cartService.findList(cartItem);
     }
 
