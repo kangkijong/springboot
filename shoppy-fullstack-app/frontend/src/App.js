@@ -19,7 +19,17 @@ import './styles/cgv.css';
 import './styles/commons.css';
 import './styles/shoppy.css';
 
+import { useEffect } from 'react';
+import { createCsrfToken } from './feature/csrf/manageCsrfToken.js';
+
 export default function App() {
+
+    //App이 최초로 호출되면 CSRF 토큰 발급
+    useEffect(() => {
+        createCsrfToken();
+    }, []);
+
+
   return (
     <AuthProvider>
     <ProductProvider>
@@ -31,17 +41,17 @@ export default function App() {
           <Route path="/all" element={<Products/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/signup" element={<Signup/>} />
-          <Route path="/cart" 
+          <Route path="/cart"
                   element={  <ProectedPageRoute>
                                 <Cart />
                             </ProectedPageRoute>  } />
           <Route path="/products/:pid" element={<ProductDetail />} />
-          <Route path="/checkout" 
+          <Route path="/checkout"
                  element={  <ProectedPageRoute>
                                 <CheckoutInfo />
                             </ProectedPageRoute>  } />
           <Route path="/payResult" element={<PayResult />} />
-                
+
           <Route path="/support" element={
             <ProectedPageRoute>
               <Support />
@@ -55,10 +65,3 @@ export default function App() {
     </AuthProvider>
   );
 }
-
-
-
-
-
-
-
