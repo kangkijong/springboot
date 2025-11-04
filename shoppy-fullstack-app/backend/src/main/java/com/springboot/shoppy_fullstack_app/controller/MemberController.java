@@ -6,7 +6,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -15,9 +21,16 @@ import java.util.Map;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+    private final AuthenticationManager authenticationManager;
+    private final HttpSessionSecurityContextRepository contextRepository;
 
-    public MemberController(MemberService memberService) {
+    @Autowired
+    public MemberController(MemberService memberService,
+                            AuthenticationManager authenticationManager,
+                            HttpSessionSecurityContextRepository contextRepository) {
         this.memberService = memberService;
+        this.authenticationManager = authenticationManager;
+        this.contextRepository = contextRepository;
     }
 
     @PostMapping("/idcheck")
@@ -39,20 +52,46 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Member member,
-                                   HttpServletRequest request) {
-        ResponseEntity<?> response = null;
-        boolean result = memberService.login(member);
-        if(result) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute("sid", "hong");
-            //response 객체의 전송되는 쿠키에 세션객체는 자동으로 담김!!!!
-            response = ResponseEntity.ok(Map.of("login", true));
-        } else {
-            response = ResponseEntity.ok(Map.of("login", false));
-        }
+                                   HttpServletRequest request,
+                                   HttpServletResponse response) {
 
-        return response;
+        try {
+            //1. 인증요청
+            Authentication authenticationRequest =
+                    UsernamePasswordAuthenticationToken.unauthenticated(member.getId(), member.getPwd());
+
+            //2. 인증처리
+            Authentication authenticationResponse =
+                    this.authenticationManager.authenticate(authenticationRequest);
+
+            System.out.println("인증 성공: " + authenticationResponse.getPrincipal());
+
+            //3. 컨텍스트에 보관
+            var context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authenticationResponse);
+            SecurityContextHolder.setContext(context);
+
+            // SecurityContext 세션에 "명시 저장" (requireExplicitSave(true)일 때 필수)
+            contextRepository.saveContext(context, request, response);
+
+            // 4. 로그인 성공 시 CSRF 토큰을 재발행을 위해 브라우저 토큰 null 처리
+            var xsrf = new Cookie("XSRF-TOKEN", null);
+            xsrf.setPath("/");               // ← 기존과 동일
+            xsrf.setMaxAge(0);               // ← 즉시 만료
+            xsrf.setHttpOnly(false);          // 개발 중에도 HttpOnly 유지 권장
+            // xsrf.setSecure(true);         // HTTPS에서만. 로컬 http면 주석
+            // xsrf.setDomain("localhost");  // 기존 쿠키가 domain=localhost였다면 지정
+            response.addCookie(xsrf);
+
+            return ResponseEntity.ok(Map.of("login", true,
+                    "userId", member.getId()));
+
+        }catch(Exception e) {
+            //로그인 실패
+            return ResponseEntity.ok(Map.of("login", false));
+        }
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request,

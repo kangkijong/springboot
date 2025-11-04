@@ -35,22 +35,22 @@ public class CartController {
      *  로그인 성공 체크 후 장바구니 리스트 조회
      */
     @PostMapping("/list")
-    public ResponseEntity<?> findList(@RequestBody CartItem cartItem,
-                                      HttpServletRequest request) {
-        HttpSession session = request.getSession(false); //기존 생성 가져오기
-        String sid = (String)session.getAttribute("sid");
-        String ssid = session.getId();
-        ResponseEntity<?> response = null;
+    public List<CartListResponse> findList(@RequestBody CartItem cartItem,
+                                           HttpServletRequest request) {
+//        HttpSession session = request.getSession(false); //기존 생성 가져오기
+//        String sid = (String)session.getAttribute("sid");
+//        String ssid = session.getId();
+//        ResponseEntity<?> response = null;
 
-        if(ssid != null && sid != null) {  //로그인 회원
-            System.out.println("ssid :: " + ssid + "sid ::" + sid);
-            List<CartListResponse> list = cartService.findList(cartItem);
-            response = ResponseEntity.ok(list);
-        } else {
-            response = ResponseEntity.ok(Map.of("result", false));
-        }
+//        if(ssid != null && sid != null) {  //로그인 회원
+//            System.out.println("ssid :: " + ssid + "sid ::" + sid);
+//            List<CartListResponse> list = cartService.findList(cartItem);
+//            response = ResponseEntity.ok(list);
+//        } else {
+//            response = ResponseEntity.ok(Map.of("result", false));
+//        }
 
-        return response;
+        return cartService.findList(cartItem);
     }
 
     @PostMapping("/count")

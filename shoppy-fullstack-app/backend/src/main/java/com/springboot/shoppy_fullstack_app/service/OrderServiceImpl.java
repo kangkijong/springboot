@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional  //DB연동로직을 하나의 트랜잭션으로 관리
     public int save(KakaoPay kakaoPay) {
         int rows = orderRepository.saveOrders(kakaoPay);
         if(!(rows == 1)) System.out.println("결제 실패!!");
