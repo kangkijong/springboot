@@ -601,8 +601,8 @@ desc orders;
 select * from order_detail;
 
 --
-INSERT INTO 
-	order_detail(order_code, pid, pname, size, qty, pid_total_price, discount)
+-- INSERT INTO 
+-- 	order_detail(order_code, pid, pname, size, qty, pid_total_price, discount)
 SELECT 
 	'abc', pid, name AS pname, size, qty, totalPrice AS pid_total_price, 
 	0
@@ -615,13 +615,43 @@ select * from view_cartlist;
 
 -- mysql은 수정, 삭제 시 update mode를 변경
 SET SQL_SAFE_UPDATES = 0;
-
-delete from orders;   
       
+--
+use shoppy;
+select database();
+show tables;      
 select * from orders;
 select * from order_detail;
+select * from view_cartlist;
+
+select ifnull(MAX(pwd), null) as pwd from member where id = 'test';
+
+select * from view_cartlist;
+
+select * from member;
+select * from product;
+desc member;
+desc product;
+
+-- findById('test')
+select id from member where id='test';
+
+select pid, name, price, info, rate, trim(image) as image, imgList from product;
+desc product;
+
+select * from product;
+show tables;
+desc order_detail;
+
+desc order_detail;
+desc product_detailinfo;
+desc product;
+desc product_qna;
+desc product_return;
+ALTER TABLE product CHANGE imgList img_list JSON;
 
 
+                
 
 
 

@@ -14,3 +14,10 @@ kakao:
     cid: TC0ONETIME          # 가맹점 코드 (테스트용)
     ready-path: /payment/ready
     approve-path: /payment/approve
+
+## Hibernate 네이밍 규칙 변경
+#spring:
+#  jpa:
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
