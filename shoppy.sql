@@ -437,6 +437,10 @@ select * from cart;
 /*********************************************************************
 	장바구니 리스트 VIEW  생성 : view_cartlist
 **********************************************************************/
+drop view view_cartlist;
+select * from information_schema.views where table_name = 'view_cartlist';
+select * from view_cartlist where id="hong";
+
 create view view_cartlist
 as
 select  m.id,
@@ -451,9 +455,9 @@ select  m.id,
 	   c.size,
 	   c.qty,
 	   c.cid,
-       t.totalPrice
+       t.total_price
    from member m, product p, cart c,
-          (select c.id, sum(c.qty * p.price) as totalPrice
+          (select c.id, sum(c.qty * p.price) as total_price
 			from cart c
 			inner join product p on c.pid = p.pid
 			group by c.id) as t
@@ -648,9 +652,12 @@ desc product_detailinfo;
 desc product;
 desc product_qna;
 desc product_return;
+desc cart;
+desc view_cartlist;
+select * from view_cartlist;
 ALTER TABLE product CHANGE imgList img_list JSON;
 
-
+-- mysql에서는 view 수정 불가!!
                 
 
 
