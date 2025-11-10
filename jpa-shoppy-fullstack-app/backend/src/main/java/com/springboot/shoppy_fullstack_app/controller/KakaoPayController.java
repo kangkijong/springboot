@@ -1,6 +1,6 @@
 package com.springboot.shoppy_fullstack_app.controller;
 
-import com.springboot.shoppy_fullstack_app.dto.KakaoPay;
+import com.springboot.shoppy_fullstack_app.dto.KakaoPayDto;
 import com.springboot.shoppy_fullstack_app.dto.KakaoApproveResponse;
 import com.springboot.shoppy_fullstack_app.dto.KakaoReadyResponse;
 import com.springboot.shoppy_fullstack_app.service.KakaoPayService;
@@ -30,7 +30,7 @@ public class KakaoPayController {
 
     private final KakaoPayService kakaoPayService;
     private final OrderService orderService;
-    private KakaoPay payInfo = null; //KaKaoPay DTO 클래스를 전역으로 선언
+    private KakaoPayDto payInfo = null; //KaKaoPay DTO 클래스를 전역으로 선언
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -47,7 +47,7 @@ public class KakaoPayController {
      *    카카오페이 결제 ready API 호출
      */
     @PostMapping("/kakao/ready")
-    public KakaoReadyResponse paymentKakao(@RequestBody  KakaoPay kakaoPay) {
+    public KakaoReadyResponse paymentKakao(@RequestBody KakaoPayDto kakaoPay) {
         //orderId(주문번호) 생성 : UUID 클래스 사용
         payInfo = kakaoPay;   //kakaoPay 객체 주소를 payInfo 복사, 전역으로 확대
         kakaoPay.setOrderId(UUID.randomUUID().toString());

@@ -510,33 +510,34 @@ from
 			 rdate		datetime	 PATH '$.rdate'
 		   )   
     ) as jt ;
-    */
-
+*/
 
 -- windows
-insert into support(title, stype, hits, rdate)
-select 
-	jt.title,
-    jt.stype,
+INSERT INTO support(title, type, hits, rdate)
+SELECT 
+    jt.title,
+    jt.`type`,
     jt.hits,
-    jt.rdate
-from
-	json_table(
-		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json') 
-				AS CHAR CHARACTER SET utf8mb4 ),
-		'$[*]' COLUMNS (
-			 title   	VARCHAR(100)  PATH '$.title',
-			 stype   	VARCHAR(30)  PATH '$.type',
-			 hits   	int PATH '$.hits',
-			 rdate		datetime	 PATH '$.rdate'
-		   )   
-    ) as jt ;
+    STR_TO_DATE(jt.rdate, '%Y.%m.%d')
+FROM
+    JSON_TABLE(
+        CAST(LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json')
+             AS CHAR CHARACTER SET utf8mb4),
+        '$[*]' COLUMNS (
+            title VARCHAR(100) PATH '$.title',
+            `type`  VARCHAR(30)  PATH '$.type',
+            hits  INT          PATH '$.hits',
+            rdate VARCHAR(20)  PATH '$.rdate'
+        )
+    ) AS jt;
 
 select * from support;
 select distinct stype from support;
 desc support;
 
-select sid, title, stype, hits, rdate from support;
+select sid, title, type, hits, rdate from support;
+
+ALTER TABLE support CHANGE COLUMN type stype VARCHAR(30) NOT NULL;
 
 
 /*********************************************************************
@@ -659,6 +660,17 @@ ALTER TABLE product CHANGE imgList img_list JSON;
 
 -- mysql에서는 view 수정 불가!!
                 
+desc orders;
+
+select * from orders;
+select * from order_detail;
+select * from cart;
+
+-- mysql은 수정, 삭제 시 update mode를 변경
+set SQL_SAFE_UPDATES = 0;
+
+delete from orders;
+delete from cart;
 
 
 

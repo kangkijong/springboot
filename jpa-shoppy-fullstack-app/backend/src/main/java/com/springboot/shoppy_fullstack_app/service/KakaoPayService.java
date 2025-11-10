@@ -1,6 +1,6 @@
 package com.springboot.shoppy_fullstack_app.service;
 
-import com.springboot.shoppy_fullstack_app.dto.KakaoPay;
+import com.springboot.shoppy_fullstack_app.dto.KakaoPayDto;
 import com.springboot.shoppy_fullstack_app.dto.KakaoApproveResponse;
 import com.springboot.shoppy_fullstack_app.dto.KakaoReadyResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,9 +46,9 @@ public class KakaoPayService {
     }
 
     // ----------------------------------------------------
-// 1. 결제 준비 (Ready)
-// ----------------------------------------------------
-    public KakaoReadyResponse kakaoPayReady(KakaoPay kakaoPay) {
+    // 1. 결제 준비 (Ready)
+    // ----------------------------------------------------
+    public KakaoReadyResponse kakaoPayReady(KakaoPayDto kakaoPay) {
 
         // (예시) 주문번호는 DB 생성 PK/UUID 사용 권장
         String orderId = kakaoPay.getOrderId(); // null이면 반드시 세팅하고 오세요.
@@ -56,7 +56,7 @@ public class KakaoPayService {
 
         // 1) 요청 바디 (kapi는 Form-URL-Encoded)
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("cid", CID);
+        params.add("cid", CID);                                     //가맹점 코드 (테스트용)
         params.add("partner_order_id", orderId);                    // ✅ 꼭 필요!
         params.add("partner_user_id", kakaoPay.getUserId());
         params.add("item_name", kakaoPay.getItemName());
@@ -76,11 +76,12 @@ public class KakaoPayService {
             String url = KAKAO_PAY_HOST + "/v1" + READY_PATH; // https://kapi.kakao.com/v1/payment/ready
             KakaoReadyResponse res = restTemplate.postForObject(url, body, KakaoReadyResponse.class);
 
-            // ✅ 결제 준비 성공 시 TID 저장
+            // ✅ 결제 준비 성공 시 TID, userId 저장
             tidStore.put(orderId, res.getTid());
             userIdStore.put(orderId, kakaoPay.getUserId());
 
             return res;
+
         } catch (Exception e) {
             System.err.println("Kakao Pay Ready 실패: " + e.getMessage());
             throw e; // 로깅/예외 처리 전략에 맞게 변환
@@ -126,8 +127,12 @@ public class KakaoPayService {
                     body,
                     KakaoApproveResponse.class
             );
-
+            System.out.println("Kakao Approve Success --> " + res);
+//            System.out.println("userId => " + res.getPartner_user_id());
+//            System.out.println("orderId => " + res.getPartner_order_id());
+//            System.out.println("status => " + res.getStatus());
             return res;
+
         } catch (Exception e) {
             System.err.println("Kakao Pay Approve 실패: " + e.getMessage());
             return null;

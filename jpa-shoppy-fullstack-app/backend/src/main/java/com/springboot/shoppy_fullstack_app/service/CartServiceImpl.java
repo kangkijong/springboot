@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional  //JPA에서 update 작업 시 명시적으로 정의
+@Transactional //JPA에서 update/delete 작업시 명시적으로 정의 필수!!!!
 public class CartServiceImpl implements CartService{
     private CartRepository cartRepository;
     private final JpaCartRepository jpaCartRepository;
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService{
     @Override
     public List<CartListResponseDto> findList(CartItemDto cartItemDto) {
         String id = cartItemDto.getId();
-        return jpaCartRepository.findByUsername(id);
+        return jpaCartRepository.findList(id);
     }
 
     @Override
@@ -53,6 +53,7 @@ public class CartServiceImpl implements CartService{
         }
         return result;
     }
+
 
     @Override
     public CartItemDto checkQty(CartItemDto cartItemDto) {
