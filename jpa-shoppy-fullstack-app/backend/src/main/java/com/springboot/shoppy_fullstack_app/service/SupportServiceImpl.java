@@ -28,8 +28,35 @@ public class SupportServiceImpl implements SupportService{
     }
 
     @Override
+    public PageResponseDto<SupportDto> findSearchAll(SupportDto support) {
+        //✨Page 객체의 인덱스 시작점이 0번지 인덱스로 초기화!!!!
+        int currentPage = support.getCurrentPage()-1;
+        int pageSize = support.getPageSize();
+        String type = support.getType();
+        String keyword = "%" + support.getKeyword() +"%";
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+
+        Page<Support> list = jpaSupportRepository.search(type, keyword, pageable);
+        List<SupportDto> resultList = new ArrayList<>();
+        int offset = pageSize * currentPage;
+        for(int i=0; i<list.getContent().size(); i++) {
+            SupportDto dto = new SupportDto(list.getContent().get(i));
+            dto.setRowNumber(offset + i + 1);  //행번호 추가
+            resultList.add(dto);
+        }
+
+        return new PageResponseDto<>(
+                resultList,
+                list.getTotalElements(),
+                list.getTotalPages(),
+                list.getNumber()  //currentPage
+        );
+    }
+
+
+    @Override
     public PageResponseDto<SupportDto> findAll(SupportDto support) {
-        //✨Page 객체의 인덱스 시작점이 currentPage 이므로, 0번지 인덱스로 초기화!!!!
+        //✨Page 객체의 인덱스 시작점이 0번지 인덱스로 초기화!!!!
         int currentPage = support.getCurrentPage()-1;
         int pageSize = support.getPageSize();
         String stype = support.getStype();

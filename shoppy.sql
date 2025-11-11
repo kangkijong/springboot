@@ -439,7 +439,9 @@ select * from cart;
 **********************************************************************/
 drop view view_cartlist;
 select * from information_schema.views where table_name = 'view_cartlist';
-select * from view_cartlist where id="hong";
+select * from view_cartlist where id='test';
+
+select qty from cart where id='test99';
 
 create view view_cartlist
 as
@@ -510,34 +512,33 @@ from
 			 rdate		datetime	 PATH '$.rdate'
 		   )   
     ) as jt ;
-*/
+    */
+
 
 -- windows
-INSERT INTO support(title, type, hits, rdate)
-SELECT 
-    jt.title,
-    jt.`type`,
+insert into support(title, stype, hits, rdate)
+select 
+	jt.title,
+    jt.stype,
     jt.hits,
-    STR_TO_DATE(jt.rdate, '%Y.%m.%d')
-FROM
-    JSON_TABLE(
-        CAST(LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json')
-             AS CHAR CHARACTER SET utf8mb4),
-        '$[*]' COLUMNS (
-            title VARCHAR(100) PATH '$.title',
-            `type`  VARCHAR(30)  PATH '$.type',
-            hits  INT          PATH '$.hits',
-            rdate VARCHAR(20)  PATH '$.rdate'
-        )
-    ) AS jt;
+    jt.rdate
+from
+	json_table(
+		cast(load_file('C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/support_list.json') 
+				AS CHAR CHARACTER SET utf8mb4 ),
+		'$[*]' COLUMNS (
+			 title   	VARCHAR(100)  PATH '$.title',
+			 stype   	VARCHAR(30)  PATH '$.type',
+			 hits   	int PATH '$.hits',
+			 rdate		datetime	 PATH '$.rdate'
+		   )   
+    ) as jt ;
 
 select * from support;
 select distinct stype from support;
 desc support;
 
-select sid, title, type, hits, rdate from support;
-
-ALTER TABLE support CHANGE COLUMN type stype VARCHAR(30) NOT NULL;
+select sid, title, stype, hits, rdate from support;
 
 
 /*********************************************************************
@@ -617,10 +618,12 @@ WHERE cid IN (38,40,42);
 select * from view_cartlist;
 
 
+desc support;
+select * from support;
+update support set content = "test" where sid in (1, 5, 18);
 
 -- mysql은 수정, 삭제 시 update mode를 변경
-SET SQL_SAFE_UPDATES = 0;
-      
+SET SQL_SAFE_UPDATES = 0;     
 --
 use shoppy;
 select database();
@@ -651,26 +654,61 @@ desc order_detail;
 desc order_detail;
 desc product_detailinfo;
 desc product;
-desc product_qna;
-desc product_return;
-desc cart;
-desc view_cartlist;
-select * from view_cartlist;
 ALTER TABLE product CHANGE imgList img_list JSON;
 
--- mysql에서는 view 수정 불가!!
-                
+show tables;
+desc product_return;
+desc product_qna;
+
+select * from cart;
+desc cart;
+
+select * from view_cartlist;
+desc view_cartlist;
+
+-- mysql에서는 view 수정 불가!!, 컬럼 수정 시 재 생성
+select * from information_schema.views
+	where table_name='view_cartlist';
+    
+--
+show tables;
+select * from orders;
+select * from order_detail;
 desc orders;
+select * from view_cartlist where id='hong';
+
+delete from orders;
+delete from order_detail;
+delete from cart;
 
 select * from orders;
 select * from order_detail;
 select * from cart;
 
+select * from orders o, order_detail od, product p
+where o.order_code = od.order_code and od.pid = p.pid;
+
+
+desc order_detail;
+
+desc orders;
+desc order_detail;
+
+select * from orders;
+select * from order_detail;
+select * from cart;
+select * from view_cartlist;
+
 -- mysql은 수정, 삭제 시 update mode를 변경
-set SQL_SAFE_UPDATES = 0;
+SET SQL_SAFE_UPDATES = 0;  
 
 delete from orders;
 delete from cart;
+
+
+
+
+                
 
 
 

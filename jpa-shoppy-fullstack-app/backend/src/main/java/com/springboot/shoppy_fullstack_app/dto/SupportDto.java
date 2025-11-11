@@ -14,6 +14,8 @@ public class SupportDto {
     private int rowNumber;  //페이징 처리 후 출력되는 행번호
     private int currentPage;
     private int pageSize;
+    private String type;
+    private String keyword;
 
     //Entity <=> DTO : Front 결과 출력
     public SupportDto() {}
