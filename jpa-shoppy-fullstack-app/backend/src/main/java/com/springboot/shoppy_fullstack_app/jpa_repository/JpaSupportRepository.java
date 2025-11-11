@@ -1,6 +1,8 @@
 package com.springboot.shoppy_fullstack_app.jpa_repository;
 
 import com.springboot.shoppy_fullstack_app.entity.Support;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface JpaSupportRepository extends JpaRepository<Support, Integer> {
-    List<Support> findAll();
+    Page<Support> findAll(Pageable pageable);
 
     @Query("select s from Support s where s.stype = :stype")
-    List<Support> findByType(@Param("stype") String stype);
+    Page<Support> findByType(@Param("stype") String stype, Pageable pageable);
 }

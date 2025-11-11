@@ -3,27 +3,42 @@ import { SearchForm } from '../components/commons/SearchForm.jsx';
 import { MenuList } from '../components/commons/MenuList.jsx';
 import { axiosData } from '../utils/dataFetch.js';
 import { getList } from '../feature/support/supportAPI.js';
+//페이징 처리 추가
+import Pagination from 'rc-pagination';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'rc-pagination/assets/index.css';
 
 export function Support() {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+
     const [menus, setMenus] = useState([]);
     const [category, setCategory] = useState([]);
-    const [list, setList] = useState([]);  
+    const [list, setList] = useState([]);
+    const [stype, setStype] = useState('all');
 
     useEffect(()=>{
         const fetch = async() => {
+            const data = {
+                "stype": stype,
+                "currentPage": currentPage,
+                "pageSize": pageSize
+            }
             const jsonData = await axiosData("/data/support.json"); //카테고리 가져오기
-            const list = await getList('all');
+            const pageList = await getList(data);
             setMenus(jsonData.menus);
             setCategory(jsonData.category);
-            setList(list);
+            setList(pageList.list);
+            setTotalCount(pageList.totalCount);
         }
         fetch();
-    }, []);
+    }, [stype, currentPage]);
 
     const filterList = async(stype) => {
-        const list = await getList(stype);
-        setList(list);
-    }    
+        setStype(stype);
+        setCurrentPage(1);
+    }
 
     return (  
         <div className="content">
@@ -43,18 +58,27 @@ export function Support() {
                             </tr>
                         </thead>
                         <tbody>
-                            {list && list.map((item, idx) => 
-                                <tr>
-                                    <td>{idx + 1}</td>
+                            {list && list.map((item, idx) =>
+                                <tr key={item.id || idx}>
+                                    <td>{item.rowNumber}</td>
                                     <td>[{item.stype}]</td>
                                     <td>{item.title}</td>
                                     <td>{item.rdate}</td>
                                     <td>{item.hits}</td>
-                                </tr>                    
+                                </tr>
                             )}
                         </tbody>
                         <tfoot>
-                            <tr><td colSpan={5}> 1 2 3 4 5 {">>"} </td></tr>
+                            <tr>
+                                <td colSpan={5}>
+                                    {/* 페이징 처리 출력 컴포넌트 */}
+                                    <Pagination className="d-flex justify-content-center"
+                                        current = {currentPage}
+                                        total = {totalCount}
+                                        pageSize = {pageSize}
+                                        onChange = {(page) => setCurrentPage(page)} />
+                                </td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
