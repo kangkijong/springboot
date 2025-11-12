@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { cartItemsCheck, cartItemsAddInfo } from '../../utils/cart.js';
 
-const initialState = {
+const saveCart = JSON.parse(localStorage.getItem("cart"));
+
+const initialState = saveCart || {
   cartCount: 0,
   cartList: [],
   totalPrice: 0,
@@ -20,20 +22,18 @@ export const cartSlice = createSlice({
         const { items } = action.payload;
         state.cartList = items;
         state.cidList = items.map(item => item.cid);
-//        state.cartList = cartItemsAddInfo(items, state.cartList);
     },
     updateCartCount (state, action) {
-//        state.cartCount = state.cartList.reduce((total, item) => total + item.qty, 0);
-//        const { count, type } = action.payload;
-//        type? state.cartCount +=  count
-//                        : state.cartCount -= count;
-        state.cartCount = action.payload.count;
+        const { count } = action.payload;
+        state.cartCount = count;
+
+        //새로고침을 위한 데이터 복사(localStorage 저장)
+        localStorage.setItem("cart", JSON.stringify({"cartCount": count}));
     },
     resetCartCount(state){
         state.cartCount = 0;
     },
     updateTotalPrice (state, action) {
-    console.log("totalPrice ==> ", action.payload.totalPrice);
         state.totalPrice = action.payload.totalPrice;
     },
     updateCartItem (state, action) {
