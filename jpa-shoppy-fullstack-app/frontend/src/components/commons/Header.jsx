@@ -52,10 +52,11 @@ export function Header() {
                             <button type="button">Support</button>
                         </Link>
                     }
-                    { role === "ROLE_ADMIN" &&
+                    { role === "ROLE_ADMIN" ?
                         <Link to="/admin">
                              <button type="button">Admin</button>
                         </Link>
+                        : ''
                     }
                 </nav>
             </div>

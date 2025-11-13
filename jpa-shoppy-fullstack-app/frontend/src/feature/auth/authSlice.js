@@ -30,6 +30,7 @@ export const authSlice = createSlice({
         },
         logout(state, action) {
             state.isLogin = !state.isLogin;
+            state.role = '';
 
             //로컬스토리지 정보 삭제
             localStorage.removeItem("loginInfo");

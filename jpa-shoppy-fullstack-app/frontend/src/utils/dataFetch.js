@@ -24,22 +24,25 @@ export const groupByRows = (array, number) => {
  * axiosGet 함수를 이용하여 백엔드 연동 처리
  */
 export const axiosGet = async (url) => {
-    const response = await axios.get(url);
-    return response.data;
+    try{
+        const response = await axios.get(url);
+        return response.data;
+    }catch(error) {
+        alert("💥 에러발생, 페이지 이동합니다!!💥");
+    }
 }
 
 /**
  * axiosPost 함수를 이용하여 백엔드 연동 처리
  */
 export const axiosPost = async (url, formData) => {
-    const response = await axios.post(url, formData, { "Content-Type": "application/json" });
-    /* const response = await axios({
-        method: "POST",
-        url: url,
-        headers: { "Content-Type": "application/json" },
-        data: formData
-    }); */
-    return response.data;
+    try{
+        const response = await axios.post(url, formData, { "Content-Type": "application/json" });
+        console.log("response ==>> ", response);
+         return response.data;
+     }catch(error) {
+        alert("💥 에러발생, 페이지 이동합니다!!💥");
+     }
 }
 
 /**
