@@ -9,12 +9,12 @@ export function Header() {
     const dispatch = useDispatch();
     const cartCount = useSelector((state) => state.cart.cartCount);
     const isLogin = useSelector((state) => state.auth.isLogin);
+    const role = useSelector((state) => state.auth.role);
     let userId = null;
     if(isLogin) userId  = JSON.parse(localStorage.getItem("loginInfo")).userId;
 
     const handleLogout = () => {
         const succ = dispatch(getLogout());
-//         const loginInfo = localStorage.getItem("loginInfo");
         if(succ) {
             alert("로그아웃 되었습니다");
             navigate("/");
@@ -26,19 +26,19 @@ export function Header() {
             <div className="header">
                 <Link to="/" className='header-left'>
                     <FiShoppingBag />
-                    <span>-JPA-Shoppy-redux(toolkit)::fullstack</span>
+                    <span>JPA-Shoppy-redux(toolkit)::fullstack</span>
                 </Link>
                 <nav className='header-right'>
-                    {isLogin && <span>[{userId}]</span> }
+                    {isLogin && <span>[{userId}::{role}]</span> }
                     <Link to="/all">Products</Link>
                     <Link to="/cart" className="header-icons-cart-link">
                         <GiShoppingCart className='header-icons'/>
                         <span className='header-icons-cart'>{cartCount}</span>
                     </Link>
-                    { !isLogin && 
+                    { !isLogin &&
                         <Link to="/login">
                             <button type="button">Login</button>
-                        </Link>                    
+                        </Link>
                     }
                     { isLogin &&
                         <button type="button"
@@ -46,12 +46,17 @@ export function Header() {
                     }
                     <Link to="/signup">
                         <button type="button">Signup</button>
-                    </Link>    
+                    </Link>
                     { isLogin &&
                         <Link to="/support">
                             <button type="button">Support</button>
-                        </Link>                   
-                    }               
+                        </Link>
+                    }
+                    { role === "ROLE_ADMIN" &&
+                        <Link to="/admin">
+                             <button type="button">Admin</button>
+                        </Link>
+                    }
                 </nav>
             </div>
         </div>

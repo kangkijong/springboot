@@ -13,6 +13,7 @@ import { AuthProvider } from './context/AuthContext.js';
 import { ProductProvider } from './context/ProductContext.js';
 import { ProectedPageRoute } from './pages/ProectedPageRoute.js';
 import { PayResult } from './pages/PayResult.jsx';
+import { ShoppyAdmin } from './pages/ShoppyAdmin.jsx';
 
 import './styles/cgvSignup.css';
 import './styles/cgv.css';
@@ -28,7 +29,6 @@ export default function App() {
     useEffect(() => {
         createCsrfToken();
     }, []);
-
 
   return (
     <AuthProvider>
@@ -57,6 +57,11 @@ export default function App() {
               <Support />
             </ProectedPageRoute>
             } />
+        <Route path="/shoppy/admin" element={
+//                    <ProectedPageRoute>
+                      <ShoppyAdmin />
+//                    </ProectedPageRoute>
+                    } />
         </Route>
       </Routes>
     </BrowserRouter>
