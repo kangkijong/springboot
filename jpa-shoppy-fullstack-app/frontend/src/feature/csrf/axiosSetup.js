@@ -6,10 +6,23 @@
 */
 import axios from "axios";
 
-// ✅ 쿠키를 보내야 하므로
+// 쿠키를 보내야 하므로
 axios.defaults.withCredentials = true;
 
-// (선택) CRA proxy 사용하는 경우 baseURL 불필요
-// axios.defaults.baseURL = "http://localhost:8080";
+// 응답 인터셉터
+axios.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    const status = err.response?.status;
+
+    if (status === 403) {
+      window.location.href = "/error/forbidden";  // 403 전용
+    }
+    if (status === 500) {
+      window.location.href = "/error/common";      // 공통 에러
+    }
+    return Promise.reject(err);
+  }
+);
 
 export default axios;

@@ -41,7 +41,7 @@ public interface JpaCartRepository extends JpaRepository<CartItem, Integer> {
                 from CartListView v
                 where v.id = :id
             """)
-    List<CartListResponseDto> findList(@Param("id") String id);
+    List<CartListResponseDto> findList(@Param("id2") String id);
 
     //🛒 장바구니 상품 수량 업데이트
     @Modifying
