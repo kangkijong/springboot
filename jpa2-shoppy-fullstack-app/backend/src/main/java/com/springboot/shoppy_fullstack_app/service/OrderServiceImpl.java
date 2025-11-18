@@ -2,7 +2,7 @@ package com.springboot.shoppy_fullstack_app.service;
 
 import com.springboot.shoppy_fullstack_app.dto.KakaoPayDto;
 import com.springboot.shoppy_fullstack_app.entity.Order;
-import com.springboot.shoppy_fullstack_app.repository.JpaCartRepository;
+import com.springboot.shoppy_fullstack_app.repository.CartRepository;
 import com.springboot.shoppy_fullstack_app.repository.JpaOrderRepository;
 import com.springboot.shoppy_fullstack_app.repository2222.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private JpaOrderRepository jpaOrderRepository;
-    private JpaCartRepository jpaCartRepository;
+    private CartRepository cartRepository;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
                             JpaOrderRepository jpaOrderRepository,
-                            JpaCartRepository jpaCartRepository){
+                            CartRepository cartRepository){
         this.orderRepository = orderRepository;
         this.jpaOrderRepository = jpaOrderRepository;
-        this.jpaCartRepository = jpaCartRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class OrderServiceImpl implements OrderService {
         if(rows == 0) new Exception("step2 주문 상세 테이블 저장 실패!!");
 
         //Step3 : Cart 테이블 아이템 삭제 - JpaCartRepository에서 삭제 진행
-        int cartRows = jpaCartRepository.deleteItemList(kakaoPayDto.getCidList());
-        if(cartRows == 0) new Exception("step3 장바구니 아이템 삭제 실패!!");
+//        int cartRows = cartRepository.deleteItemList(kakaoPayDto.getCidList());
+//        if(cartRows == 0) new Exception("step3 장바구니 아이템 삭제 실패!!");
 
         result = 1;
 

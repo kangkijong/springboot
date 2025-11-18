@@ -1,6 +1,7 @@
 package com.springboot.shoppy_fullstack_app.entity;
 
 import com.springboot.shoppy_fullstack_app.dto.CartItemDto;
+import com.springboot.shoppy_fullstack_app.dto.CartItemRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,18 +17,29 @@ public class CartItem {
     private int cid;
     private String size;
     private int qty;
-    private int pid;
-    private String id;
     private LocalDate cdate;
+
+    //FK: product.pid
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="pid", nullable = false)
+    private Product product;
+
+    //FK: member.id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id", nullable = false)
+    private Member member;
+
 
     //DTO <=> Entity 변환
     public CartItem() {}
-    public CartItem(CartItemDto dto) {
+
+    //add : 상품추가 생성자
+    public CartItem(CartItemRequestDto dto, Product product, Member member) {
         this.cid = dto.getCid();
         this.size = dto.getSize();
         this.qty = dto.getQty();
-        this.pid = dto.getPid();
-        this.id = dto.getId();
+        this.product = product;
+        this.member = member;
         this.cdate = LocalDate.now();
     }
 

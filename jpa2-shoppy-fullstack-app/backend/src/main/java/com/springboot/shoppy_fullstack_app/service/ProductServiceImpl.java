@@ -7,20 +7,21 @@ import com.springboot.shoppy_fullstack_app.dto.ProductReturnDto;
 import com.springboot.shoppy_fullstack_app.entity.Product;
 import com.springboot.shoppy_fullstack_app.entity.ProductDetailinfo;
 import com.springboot.shoppy_fullstack_app.entity.ProductQna;
-import com.springboot.shoppy_fullstack_app.repository.JpaProductRepository;
+import com.springboot.shoppy_fullstack_app.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 //@Transactional
 public class ProductServiceImpl implements ProductService {
-    private final JpaProductRepository jpaProductRepository;
+    private final ProductRepository jpaProductRepository;
 
     @Autowired
-    public ProductServiceImpl(JpaProductRepository jpaProductRepository) {
+    public ProductServiceImpl(ProductRepository jpaProductRepository) {
         this.jpaProductRepository = jpaProductRepository;
     }
 
@@ -31,15 +32,17 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductQnaDto> findQna(int pid) {
         List<ProductQnaDto> list = new ArrayList<>();
-        List<ProductQna> entityList = jpaProductRepository.findQna(pid);
-        entityList.forEach(entity -> list.add(new ProductQnaDto(entity)));
+        Product product = jpaProductRepository.findProductWithQna(pid);
+        List<ProductQna> qnaList = product.getQnaList();
+        qnaList.forEach(qna -> list.add(new ProductQnaDto(qna)));
         return list;
     }
 
     @Override
     public ProductDetailinfoDto findDetailinfo(int pid) {
-        ProductDetailinfo entity = jpaProductRepository.findProductDetailinfo(pid);
-        return new ProductDetailinfoDto(entity);
+        Optional<Product> entity = jpaProductRepository.findProductWithDetail(pid);
+        ProductDetailinfo detailinfo = entity.get().getDetailInfo();
+        return new ProductDetailinfoDto(detailinfo);
     }
 
     @Override

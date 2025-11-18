@@ -11,15 +11,13 @@ public class ProductDetailinfo {
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int did;
 
-    @Column(nullable = false)
-    private int pid;
+    // FK: product.pid
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pid", nullable = false)
+    private Product product;
 
-    @Column(columnDefinition = "JSON")
     private String list;
-
-    @Column(length = 100, nullable = false)
     private String titleEn;
-
-    @Column(length = 100, nullable = false)
     private String titleKo;
+
 }

@@ -4,28 +4,37 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="product")
 @Getter @Setter
 public class Product {
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pid;
-
-    @Column(name="name", length = 200, nullable = false)
     private String name;
-
-    @Column(name="price", columnDefinition = "MEDIUMTEXT")
     private long price;
-
-    @Column(name="info", length = 200)
     private String info;
-
-    @Column(name="rate")
     private double rate;
-
-    @Column(length = 100)
     private String image;
 
     @Column(columnDefinition = "JSON")
     private String imgList;
+
+    /**
+     * 연관관계 매핑 : ProductDetailinfo(1 or N) <=> (1)Product(1) <=> (N)ProductQna
+     */
+    // Product(1) : (1 or N)ProductDetailinfo
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProductDetailinfo detailInfo;
+
+    // Product(1) : (N) ProductQna
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductQna> qnaList = new ArrayList<>();
+
+    // Product(1) : (N) CartItem
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItem> cartItemList = new ArrayList<>();
+
 }

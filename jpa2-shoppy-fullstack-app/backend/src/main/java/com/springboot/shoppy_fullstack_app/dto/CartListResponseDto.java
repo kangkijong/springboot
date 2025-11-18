@@ -1,11 +1,12 @@
 package com.springboot.shoppy_fullstack_app.dto;
 
+import com.springboot.shoppy_fullstack_app.entity.CartItem;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-//@Data
+@Data
 @Setter @Getter
 @AllArgsConstructor
 public class CartListResponseDto {
@@ -17,9 +18,36 @@ public class CartListResponseDto {
     private String name;
     private String info;
     private String image;
-    private int price;
+    private long price;
     private String size;
     private int qty;
     private int cid;
-    private int totalPrice;
+    private long totalPrice;
+
+    public CartListResponseDto(){}
+    public CartListResponseDto(CartItem entity, long totalPrice){
+        this.id = entity.getMember().getId();
+        this.mname = entity.getMember().getName();
+        this.phone = entity.getMember().getPhone();
+        this.email = entity.getMember().getEmail();
+        this.pid = entity.getProduct().getPid();
+        this.name = entity.getProduct().getName();
+        this.info = entity.getProduct().getInfo();
+        this.image = entity.getProduct().getImage();
+        this.price = entity.getProduct().getPrice();
+        this.size = entity.getSize();
+        this.qty = entity.getQty();
+        this.cid = entity.getCid();
+        this.totalPrice = totalPrice;
+    }
 }
+
+
+
+
+
+
+
+
+
+

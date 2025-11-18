@@ -23,7 +23,7 @@ public class ProductQnaDto {
         this.isComplete = entity.isComplete();
         this.isLock = entity.isLock();
         this.id = entity.getId();
-        this.pid = entity.getPid();
+        this.pid = entity.getProduct().getPid();
         this.cdate = entity.getCdate();
     }
 }

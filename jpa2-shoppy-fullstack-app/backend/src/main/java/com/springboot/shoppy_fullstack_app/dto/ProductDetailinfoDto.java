@@ -15,7 +15,7 @@ public class ProductDetailinfoDto {
     public ProductDetailinfoDto() {}
     public ProductDetailinfoDto(ProductDetailinfo entity) {
         this.did = entity.getDid();
-        this.pid = entity.getPid();
+        this.pid = entity.getProduct().getPid();
         this.list = entity.getList();
         this.titleEn = entity.getTitleEn();
         this.titleKo = entity.getTitleKo();
