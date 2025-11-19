@@ -18,21 +18,21 @@ import java.util.Optional;
 @Service
 //@Transactional
 public class ProductServiceImpl implements ProductService {
-    private final ProductRepository jpaProductRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository jpaProductRepository) {
-        this.jpaProductRepository = jpaProductRepository;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Override
     public ProductReturnDto findReturn() {
-        return new ProductReturnDto(jpaProductRepository.findReturn()); }
+        return new ProductReturnDto(productRepository.findReturn()); }
 
     @Override
     public List<ProductQnaDto> findQna(int pid) {
         List<ProductQnaDto> list = new ArrayList<>();
-        Product product = jpaProductRepository.findProductWithQna(pid);
+        Product product = productRepository.findProductWithQna(pid);
         List<ProductQna> qnaList = product.getQnaList();
         qnaList.forEach(qna -> list.add(new ProductQnaDto(qna)));
         return list;
@@ -40,21 +40,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDetailinfoDto findDetailinfo(int pid) {
-        Optional<Product> entity = jpaProductRepository.findProductWithDetail(pid);
+        Optional<Product> entity = productRepository.findProductWithDetail(pid);
         ProductDetailinfo detailinfo = entity.get().getDetailInfo();
         return new ProductDetailinfoDto(detailinfo);
     }
 
     @Override
     public ProductDto findByPid(int pid) {
-        Product entity = jpaProductRepository.findByPid(pid);
+        Product entity = productRepository.findByPid(pid);
         return new ProductDto(entity);
     }
 
     @Override
     public List<ProductDto> findAll() {
         List<ProductDto> dlist = new ArrayList<>();
-        List<Product> list = jpaProductRepository.findAll();
+        List<Product> list = productRepository.findAll();
         list.forEach((product) -> dlist.add(new ProductDto(product)));
         return dlist;
     }

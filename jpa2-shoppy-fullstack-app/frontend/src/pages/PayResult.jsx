@@ -2,7 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getLogout } from '../feature/auth/authAPI.js';
-import { login } from '../feature/auth/authSlice.js';
+import { reLogin } from '../feature/auth/authSlice.js';
+import { updateCartCount } from '../feature/cart/cartSlice.js';
 
 
 export function PayResult() {
@@ -11,13 +12,16 @@ export function PayResult() {
   const status = searchParams.get("status");
   const userId = searchParams.get("userId");
   const dispatch = useDispatch();
+  const { isLogin, role } = localStorage.getItem("auth");
 
     useEffect(() => {
-        if (status === "success") dispatch(login({ "userId": userId }));
-        else dispatch(getLogout());
+        if (status === "success") {
+            dispatch(reLogin({ "userId":userId,
+                               "isLogin": isLogin,
+                               "role": role }));
+            dispatch(updateCartCount({"count":0 }));
+        } else dispatch(getLogout());
     }, []);
-
-
 
 
   return (

@@ -1,6 +1,5 @@
 package com.springboot.shoppy_fullstack_app.service;
 
-import com.springboot.shoppy_fullstack_app.dto.CartItemDto;
 import com.springboot.shoppy_fullstack_app.dto.CartItemRequestDto;
 import com.springboot.shoppy_fullstack_app.dto.CartItemResponseDto;
 import com.springboot.shoppy_fullstack_app.dto.CartListResponseDto;

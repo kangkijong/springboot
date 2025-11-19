@@ -121,13 +121,12 @@ public class KakaoPayService {
         try {
             // URL 조합: https://kapi.kakao.com + /v1/payment/approve
             String url = KAKAO_PAY_HOST + "/v1" + APPROVE_PATH;
-
             KakaoApproveResponse res =  restTemplate.postForObject(
                                                     url,
                                                     body,
                                                     KakaoApproveResponse.class
                                             );
-            System.out.println("Kakao Approve Success --> " + res);
+//            System.out.println("Kakao Approve Success --> " + res);
 //            System.out.println("userId => " + res.getPartner_user_id());
 //            System.out.println("orderId => " + res.getPartner_order_id());
 //            System.out.println("status => " + res.getStatus());

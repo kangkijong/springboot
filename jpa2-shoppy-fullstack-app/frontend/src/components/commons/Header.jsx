@@ -10,6 +10,10 @@ export function Header() {
     const cartCount = useSelector((state) => state.cart.cartCount);
     const isLogin = useSelector((state) => state.auth.isLogin);
     const role = useSelector((state) => state.auth.role);
+console.log("isLogin :: Header ---------> ", isLogin) ;
+console.log("isLogin :: cartCount ---------> ", cartCount)  ;
+console.log("isLogin :: role ---------> ", role) ;
+
     let userId = null;
     if(isLogin) userId  = JSON.parse(localStorage.getItem("loginInfo")).userId;
 

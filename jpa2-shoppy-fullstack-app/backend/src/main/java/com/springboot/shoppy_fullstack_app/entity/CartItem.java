@@ -1,6 +1,5 @@
 package com.springboot.shoppy_fullstack_app.entity;
 
-import com.springboot.shoppy_fullstack_app.dto.CartItemDto;
 import com.springboot.shoppy_fullstack_app.dto.CartItemRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;

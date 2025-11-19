@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JpaSupportRepository extends JpaRepository<Support, Integer> {
+public interface SupportRepository extends JpaRepository<Support, Integer> {
     Page<Support> findAll(Pageable pageable);
 
     @Query("select s from Support s where s.stype = :stype")

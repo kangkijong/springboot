@@ -720,8 +720,13 @@ select *
 from product p, product_detailinfo pd 
 where p.pid = pd.pid;
 
+select * from orders;
+desc orders;
 
-
+-- entity 연관관계 시 참조 테이블의 컬럼명과 일치시칸다.
+alter table orders change member_id id varchar(50) not null;
+desc orders;
+desc order_detail;
 
 
 

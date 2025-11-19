@@ -38,7 +38,6 @@ export const axiosGet = async (url) => {
 export const axiosPost = async (url, formData) => {
     try{
         const response = await axios.post(url, formData, { "Content-Type": "application/json" });
-        console.log("response ==>> ", response);
          return response.data;
      }catch(error) {
         alert("💥 에러발생, 페이지 이동합니다!!💥");

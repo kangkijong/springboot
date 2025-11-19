@@ -4,6 +4,7 @@ import com.springboot.shoppy_fullstack_app.dto.KakaoPayDto;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -16,7 +17,6 @@ public class Order {
     @Enumerated(EnumType.STRING)  @Column(nullable = false, length = 20)
     private OrderStatus status = OrderStatus.대기중; // enum('대기중',...)
     private String orderCode;
-    private String memberId;
     private Integer shippingFee = 0;
     private Integer discountAmount = 0;
     private Integer totalAmount;
@@ -28,10 +28,16 @@ public class Order {
     private String memo;
     private LocalDateTime odate;
 
+    //FK : Member(id) 참조
+    //Order(N) : (1)Member
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id", nullable = false)
+    private Member member;
+
     public Order() {}
-    public Order(KakaoPayDto dto) {
+    public Order(KakaoPayDto dto, Member member) {
         this.orderCode = dto.getOrderId();
-        this.memberId = dto.getUserId();
+        this.member = member;
         this.shippingFee = dto.getPaymentInfo().getShippingFee();
         this.discountAmount = dto.getPaymentInfo().getDiscountAmount();
         this.totalAmount = dto.getPaymentInfo().getTotalAmount();

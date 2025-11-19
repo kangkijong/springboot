@@ -27,8 +27,6 @@ export const authSlice = createSlice({
                                     role
                                 })
             )
-
-
         },
         logout(state, action) {
             state.isLogin = !state.isLogin;
@@ -38,11 +36,26 @@ export const authSlice = createSlice({
             localStorage.removeItem("loginInfo");
             localStorage.removeItem("auth");
             localStorage.removeItem("cart");
+        },
+        reLogin (state, action){
+            const { userId, isLogin, role } = action.payload;
+            console.log(userId, isLogin, role);
+//            localStorage.removeItem("loginInfo");
+//            localStorage.removeItem("auth");
+//            localStorage.setItem("loginInfo", JSON.stringify(loginInfo));
+//            //새로고침을 위한 데이터 복사(localStorage 저장)
+//            localStorage.setItem("auth",
+//                                JSON.stringify({
+//                                    isLogin : true,
+//                                    userId,
+//                                    role
+//                                })
+//            )
         }
   },
 })
 
-export const { login, logout } 
+export const { login, logout, reLogin }
     = authSlice.actions   //API 함수 또는 컴포넌트에서 dispatch(액션함수)
 
 export default authSlice.reducer  //store  import

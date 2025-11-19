@@ -3,8 +3,7 @@ package com.springboot.shoppy_fullstack_app.service;
 import com.springboot.shoppy_fullstack_app.dto.PageResponseDto;
 import com.springboot.shoppy_fullstack_app.dto.SupportDto;
 import com.springboot.shoppy_fullstack_app.entity.Support;
-import com.springboot.shoppy_fullstack_app.repository.JpaSupportRepository;
-import com.springboot.shoppy_fullstack_app.repository2222.SupportRepository;
+import com.springboot.shoppy_fullstack_app.repository.SupportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,13 +17,10 @@ import java.util.List;
 public class SupportServiceImpl implements SupportService{
 
     private SupportRepository supportRepository;
-    private JpaSupportRepository jpaSupportRepository;
 
     @Autowired
-    public SupportServiceImpl(SupportRepository supportRepository,
-                              JpaSupportRepository jpaSupportRepository) {
+    public SupportServiceImpl(SupportRepository supportRepository) {
         this.supportRepository = supportRepository;
-        this.jpaSupportRepository = jpaSupportRepository;
     }
 
     @Override
@@ -36,7 +32,7 @@ public class SupportServiceImpl implements SupportService{
         String keyword = "%" + support.getKeyword() +"%";
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
-        Page<Support> list = jpaSupportRepository.search(type, keyword, pageable);
+        Page<Support> list = supportRepository.search(type, keyword, pageable);
         List<SupportDto> resultList = new ArrayList<>();
         int offset = pageSize * currentPage;
         for(int i=0; i<list.getContent().size(); i++) {
@@ -63,9 +59,9 @@ public class SupportServiceImpl implements SupportService{
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         Page<Support> list = null;
         if(support.getStype().equals("all")) {
-            list = jpaSupportRepository.findAll(pageable);
+            list = supportRepository.findAll(pageable);
         } else {
-            list = jpaSupportRepository.findByType(stype, pageable);
+            list = supportRepository.findByType(stype, pageable);
         }
 
         List<SupportDto> resultList = new ArrayList<>();
